@@ -65,10 +65,22 @@ public class RutubeTests extends BaseTest {
     public void test3_changeSearchQuery() {
         MainPage mainPage = new MainPage();
         SearchPage searchResults = mainPage.search("музыка");
+
+        String firstTitleBefore = searchResults.getFirstVideoTitle();
+
         searchResults.clearSearch();
         searchResults.searchAgain("кино");
 
-        assertThat(searchResults.isDisplayed()).as("Результаты поиска должны обновиться").isTrue();
+        String firstTitleAfter = searchResults.getFirstVideoTitle();
+        String searchInputValue = searchResults.getSearchInputValue();
+
+        assertThat(searchInputValue)
+                .as("Запрос должен обновиться")
+                .isEqualTo("кино");
+
+        assertThat(firstTitleAfter)
+                .as("Результаты поиска должны обновиться")
+                .isNotEqualTo(firstTitleBefore);
     }
 
     @Test

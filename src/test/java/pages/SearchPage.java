@@ -69,6 +69,12 @@ public class SearchPage extends BasePage {
         return new VideoPage();
     }
 
+    public String getFirstVideoTitle() {
+        return firstCard
+                .$x(".//a[contains(@class, 'videoTitle')]")
+                .getText();
+    }
+
     public String getFirstVideoPublishDate() {
         return firstCard
                 .$x(".//p[contains(@class, 'metaInfoPublishDate')]")
@@ -79,6 +85,10 @@ public class SearchPage extends BasePage {
         return firstCard
                 .$x(".//span[contains(@class, 'duration')]")
                 .getText();
+    }
+
+    public String getSearchInputValue() {
+        return searchInput.getBaseElement().getValue();
     }
 
     public SearchPage goToChannelsTab() {
