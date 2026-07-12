@@ -2,6 +2,7 @@ package elements;
 
 import com.codeborne.selenide.SelenideElement;
 
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$x;
 
 public class VideoPlayer extends BaseElement {
@@ -11,25 +12,31 @@ public class VideoPlayer extends BaseElement {
     }
 
     public void pause() {
+        waitForLoad();
+        hover();
+
         SelenideElement playButton = baseElement.$x(".//button[@data-testid='ui-play']");
-        if (playButton.exists()) {
+        if (playButton.exists() && !isPaused()) {
             playButton.click();
         }
     }
 
     public void play() {
+        waitForLoad();
+        hover();
+
         SelenideElement pauseButton = baseElement.$x(".//button[@data-testid='ui-play']");
-        if (pauseButton.exists()) {
+        if (pauseButton.exists() && isPaused()) {
             pauseButton.click();
         }
     }
 
     public boolean isPaused() {
-        try {
-            return baseElement.$x(".//button[@data-testid='ui-play']//use[@xlink:href='#IconDsPlayerPlayFilled']").exists();
-        } catch (Exception e) {
-            return false;
-        }
+        String label = baseElement
+                .$x(".//button[@data-testid='ui-play']")
+                .getAttribute("aria-label");
+
+        return label != null && label.contains("Воспроизвести");
     }
 
     public void setQuality(String quality) {
@@ -57,5 +64,13 @@ public class VideoPlayer extends BaseElement {
     public void openMenu() {
         SelenideElement menuButton = baseElement.$x(".//button[@data-testid='menu-action-video-row']");
         menuButton.click();
+    }
+
+    public void waitForLoad() {
+        baseElement.shouldBe(visible);
+    }
+
+    public void hover(){
+        baseElement.hover();
     }
 }
