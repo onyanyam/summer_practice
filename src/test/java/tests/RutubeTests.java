@@ -23,11 +23,13 @@ public class RutubeTests extends BaseTest {
     }
 
     @Test
-    public void test2_applyFilters() {
+    public void test2_applyFilters() throws InterruptedException {
         MainPage mainPage = new MainPage();
         SearchPage searchResults = mainPage.search("новости");
-        searchResults.applyFilter("За сегодня");
-        searchResults.applyFilter("20-60 минут");
+
+        searchResults.openFilters()
+                     .applyFilter("За сегодня")
+                     .applyFilter("20–60 минут");
 
         assertThat(searchResults.isDisplayed()).as("Страница результатов должна быть видна").isTrue();
     }

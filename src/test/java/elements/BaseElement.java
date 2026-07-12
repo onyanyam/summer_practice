@@ -5,6 +5,7 @@ import com.codeborne.selenide.SelenideElement;
 
 import java.time.Duration;
 
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$x;
 
 public class BaseElement {
@@ -23,12 +24,14 @@ public class BaseElement {
     public boolean isDisplayed() {
         try {
             return baseElement
-                    .shouldBe(Condition.visible, Duration.ofSeconds(WAIT_SECONDS))
+                    .shouldBe(visible, Duration.ofSeconds(WAIT_SECONDS))
                     .isDisplayed();
         } catch (Exception e) {
             return false;
         }
     }
+
+    public void waitForLoad() { baseElement.shouldBe(visible); }
 
     public void click() {
         baseElement.click();
