@@ -14,6 +14,8 @@ public class SearchPage extends BasePage {
 
     private final SelenideElement filtersPanel =
             $x("//div[contains(@class, 'search-filters-module__searchFiltersAdvanced')]");
+    private final SelenideElement firstCard = $x("//article[@data-pos-num='0']");
+
     private final Button filterButton = Button.byXpath("//div[contains(text(), 'Фильтры')]/parent::button");
     private final Button channelsTab = Button.byXpath("//button[@role='tab' and contains(., 'Каналы')]");
     private final Button firstVideo = Button.byXpath("//a[contains(@class, 'wdp-card-poster-module__posterWrapperBase')]");
@@ -65,6 +67,18 @@ public class SearchPage extends BasePage {
     public VideoPage openFirstVideo() {
         firstVideo.click();
         return new VideoPage();
+    }
+
+    public String getFirstVideoPublishDate() {
+        return firstCard
+                .$x(".//p[contains(@class, 'metaInfoPublishDate')]")
+                .getText();
+    }
+
+    public String getFirstVideoDuration() {
+        return firstCard
+                .$x(".//span[contains(@class, 'duration')]")
+                .getText();
     }
 
     public SearchPage goToChannelsTab() {

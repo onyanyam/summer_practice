@@ -12,6 +12,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class RutubeTests extends BaseTest {
 
+    // Парсер для строки с длительностью видеоролика
+    private int parseDuration(String duration) {
+        String[] parts = duration.split(":");
+
+        if (parts.length == 3) {
+            int h = Integer.parseInt(parts[0]);
+            int m = Integer.parseInt(parts[1]);
+            int s = Integer.parseInt(parts[2]);
+
+            return h * 3600 + m * 60 + s;
+        }
+
+        int m = Integer.parseInt(parts[0]);
+        int s = Integer.parseInt(parts[1]);
+
+        return m * 60 + s;
+    }
+
     @Test
     public void test1_searchVideoAndPause() {
         MainPage mainPage = new MainPage();
@@ -31,7 +49,16 @@ public class RutubeTests extends BaseTest {
                      .applyFilter("За сегодня")
                      .applyFilter("20–60 минут");
 
-        assertThat(searchResults.isDisplayed()).as("Страница результатов должна быть видна").isTrue();
+        String publishDate = searchResults.getFirstVideoPublishDate();
+        String duration    = searchResults.getFirstVideoDuration();
+
+        assertThat(publishDate)
+                .as("Видео должно быть опубликовано сегодня")
+                .containsAnyOf("минут", "час", "секунд", "сегодня");
+
+        assertThat(parseDuration(duration))
+                .as("Видео должно длиться от 20 до 60 минут")
+                .isBetween(20 * 60, 60 * 60);
     }
 
     @Test
