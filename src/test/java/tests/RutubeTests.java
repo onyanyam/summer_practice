@@ -41,7 +41,7 @@ public class RutubeTests extends BaseTest {
     }
 
     @Test
-    public void test2_applyFilters() throws InterruptedException {
+    public void test2_applyFilters() {
         MainPage mainPage = new MainPage();
         SearchPage searchResults = mainPage.search("новости");
 
