@@ -8,29 +8,9 @@ import pages.ChannelPage;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static utils.Utils.parseDuration;
 
 public class RutubeTests extends BaseTest {
-
-    /**
-     * Парсит строку с длительностью видеоролика в секунды.
-     * Поддерживает форматы "MM:SS" и "HH:MM:SS".
-     */
-    private int parseDuration(String duration) {
-        String[] parts = duration.split(":");
-
-        if (parts.length == 3) {
-            int h = Integer.parseInt(parts[0]);
-            int m = Integer.parseInt(parts[1]);
-            int s = Integer.parseInt(parts[2]);
-
-            return h * 3600 + m * 60 + s;
-        }
-
-        int m = Integer.parseInt(parts[0]);
-        int s = Integer.parseInt(parts[1]);
-
-        return m * 60 + s;
-    }
 
     /**
      * Тест 1. Поиск видео.
