@@ -12,4 +12,8 @@ public class Tab extends BaseElement {
         return new Tab(TEXT_XPATH, text);
     }
 
+    public void click() {
+        baseElement.click();
+    }
+
 }

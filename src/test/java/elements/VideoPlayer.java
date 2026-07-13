@@ -34,8 +34,12 @@ public class VideoPlayer extends BaseElement {
     private static final String MENU_BUTTON_XPATH =
             ".//button[@data-testid='menu-action-video-row']";
 
-    public VideoPlayer() {
+    private VideoPlayer() {
         super(VIDEO_PLAYER_XPATH, "");
+    }
+
+    public static VideoPlayer getPlayer() {
+        return new VideoPlayer();
     }
 
     public void pause() {

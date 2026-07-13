@@ -55,6 +55,9 @@ public class SearchPage extends BasePage {
     private static final String CLEAR_BUTTON_XPATH =
             "//button[@aria-label='Очистить поле']";
 
+    private static final String SEARCH_RESULTS_ROOT =
+            "//div[contains(@class, 'search-results')]";
+
 
     private final SelenideElement filtersPanel = $x(FILTERS_PANEL_XPATH);
     private final SelenideElement firstCard = $x(FIRST_CARD_XPATH);
@@ -84,7 +87,7 @@ public class SearchPage extends BasePage {
      * Конструктор страницы поиска.
      */
     public SearchPage() {
-        super(SearchPage.class, "//div[contains(@class, 'search-results')]", "");
+        super(SearchPage.class, SEARCH_RESULTS_ROOT, "");
     }
 
     /**
@@ -110,20 +113,25 @@ public class SearchPage extends BasePage {
      * кликает по нему и проверяет, что он стал активным.
      */
     public SearchPage applyFilter(String filterValue) {
-        // Ждем загрузки результатов
         waitForResultsLoad();
 
-        // Ждем появления необходимого фильтра
-        SelenideElement option = $x(String.format(FILTER_OPTION_XPATH, filterValue));
-        option.shouldBe(visible);
-
-        // Выбираем фильтр и ожидаем активации
+        SelenideElement option = findFilterOption(filterValue);
         option.click();
-        option.shouldHave(
-                cssClass(ACTIVE_FILTER_CLASS)
-        );
+        waitForFilterActivation(option);
 
         return this;
+    }
+
+    // Метод для поиска фильтра
+    private SelenideElement findFilterOption(String filterValue) {
+        SelenideElement option = $x(String.format(FILTER_OPTION_XPATH, filterValue));
+        option.shouldBe(visible);
+        return option;
+    }
+
+    // Метод для ожидания активации
+    private void waitForFilterActivation(SelenideElement option) {
+        option.shouldHave(cssClass(ACTIVE_FILTER_CLASS));
     }
 
     /**
@@ -135,30 +143,25 @@ public class SearchPage extends BasePage {
     }
 
     /**
-     * Получает заголовок первого видео в результатах поиска.
+     * Метод, который находит элемент по Xpath внутри первого видео.
+     */
+    private String getFirstVideoAttribute(String xpath) {
+        return firstCard.$x(xpath).getText();
+    }
+
+    /**
+     * Геттеры
      */
     public String getFirstVideoTitle() {
-        return firstCard
-                .$x(FIRST_VIDEO_TITLE_XPATH)
-                .getText();
+        return getFirstVideoAttribute(FIRST_VIDEO_TITLE_XPATH);
     }
 
-    /**
-     * Получает дату публикации первого видео в результатах поиска.
-     */
     public String getFirstVideoPublishDate() {
-        return firstCard
-                .$x(FIRST_VIDEO_PUBLISH_DATE_XPATH)
-                .getText();
+        return getFirstVideoAttribute(FIRST_VIDEO_PUBLISH_DATE_XPATH);
     }
 
-    /**
-     * Получает длительность первого видео в результатах поиска.
-     */
     public String getFirstVideoDuration() {
-        return firstCard
-                .$x(FIRST_VIDEO_DURATION_XPATH)
-                .getText();
+        return getFirstVideoAttribute(FIRST_VIDEO_DURATION_XPATH);
     }
 
     /**
@@ -189,9 +192,7 @@ public class SearchPage extends BasePage {
      * Очищает поле, вводит новый запрос и нажимает Enter.
      */
     public SearchPage searchAgain(String query) {
-        searchInput.clear();
         searchInput.fill(query);
-        searchInput.pressEnter();
         return this;
     }
 }

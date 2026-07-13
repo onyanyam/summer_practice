@@ -18,6 +18,8 @@ public class MainPage extends BasePage {
     private static final String LOGO_BUTTON_XPATH = "//button[@data-testid='rutube-logo']";
     private static final String TOP_LINK_XPATH = "//a[contains(@href, '/feeds/top/')]";
 
+    private static final String MAIN_PAGE_ROOT = "//div[contains(@class, 'main-page')]";
+
     // Реальные элементы на главной странице Rutube
     private final Input searchInput = Input.byPlaceholder(SEARCH_PLACEHOLDER);
     private final Button searchButton = Button.byText(SEARCH_BUTTON_TEXT);
@@ -28,7 +30,7 @@ public class MainPage extends BasePage {
      * Конструктор главной страницы.
      */
     public MainPage() {
-        super(MainPage.class, "//div[contains(@class, 'main-page')]", "");
+        super(MainPage.class, MAIN_PAGE_ROOT, "");
     }
 
     /**
@@ -37,11 +39,9 @@ public class MainPage extends BasePage {
      */
     public SearchPage search(String query) {
         if (query == null || query.isEmpty()) {
-            searchInput.fill("");
-            searchInput.pressEnter();
-        } else {
             searchInput.fill(query);
-            searchInput.pressEnter();
+        } else {
+            searchInput.fill("");;
         }
         return new SearchPage();
     }

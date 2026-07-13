@@ -22,4 +22,8 @@ public class Link extends BaseElement {
         return new Link(CLASS_XPATH, className);
     }
 
+    public void click() {
+        baseElement.click();
+    }
+
 }

@@ -35,8 +35,11 @@ public class VideoPage extends BasePage {
     private static final String CHANNEL_LINK_CLASS =
             "wdp-video-options-row-module__author";
 
+    private static final String VIDEO_PLAYER_LAYOUT =
+            "//section[contains(@class, 'video-page-layout-module__player')]";
 
-    private final VideoPlayer videoPlayer = new VideoPlayer();
+
+    private final VideoPlayer videoPlayer = VideoPlayer.getPlayer();
     private final Button shareButton = Button.byXpath(SHARE_BUTTON_XPATH);
     private final Button copyLinkButton = Button.byXpath(COPY_LINK_BUTTON_XPATH);
     private final Button menuButton = Button.byXpath(MENU_BUTTON_XPATH);
@@ -49,7 +52,7 @@ public class VideoPage extends BasePage {
      * Конструктор страницы с видео
      */
     public VideoPage() {
-        super(VideoPage.class, "//section[contains(@class, 'video-page-layout-module__player')]", "");
+        super(VideoPage.class, VIDEO_PLAYER_LAYOUT, "");
     }
 
     /**

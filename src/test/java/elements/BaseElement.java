@@ -33,10 +33,6 @@ public class BaseElement {
 
     public void waitForLoad() { baseElement.shouldBe(visible); }
 
-    public void click() {
-        baseElement.click();
-    }
-
     public String getText() {
         return baseElement.getText();
     }

@@ -14,14 +14,11 @@ public class Input extends BaseElement {
     public void fill(String value) {
         baseElement.clear();
         baseElement.setValue(value);
+        baseElement.pressEnter();
     }
 
     public void clear() {
         baseElement.clear();
-    }
-
-    public void pressEnter() {
-        baseElement.pressEnter();
     }
 
     public static Input byId(String id) {

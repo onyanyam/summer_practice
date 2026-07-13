@@ -17,6 +17,8 @@ public class ChannelPage extends BasePage {
 
     private static final String CHANNEL_LOGO_CLASS = "wdp-video-options-row-module__authorAvatar";
 
+    private static final String CHANNEL_PAGE_ROOT = "//div[contains(@class, 'channel-page')]";
+
     // Кнопка подписки на канал
     private final Button subscribeButton = Button.byXpath(SUBSCRIBE_BUTTON_XPATH);
     // Ссылка на логотип канала
@@ -26,7 +28,7 @@ public class ChannelPage extends BasePage {
      * Конструктор страницы канала.
      */
     public ChannelPage() {
-        super(ChannelPage.class, "//div[contains(@class, 'channel-page')]", "");
+        super(ChannelPage.class, CHANNEL_PAGE_ROOT, "");
     }
 
     /**

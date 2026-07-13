@@ -22,4 +22,8 @@ public class Button extends BaseElement {
         return new Button(XPATH_XPATH, xpath);
     }
 
+    public void click() {
+        baseElement.click();
+    }
+
 }
