@@ -5,7 +5,6 @@ import pages.MainPage;
 import pages.SearchPage;
 import pages.VideoPage;
 import pages.ChannelPage;
-import pages.PlaylistPage;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,7 +38,7 @@ public class RutubeTests extends BaseTest {
      * Проверяет, что видео успешно приостановилось.
      */
     @Test
-    public void test1_searchVideoAndPause() {
+    public void searchVideoAndPause() {
         MainPage mainPage = new MainPage();
         SearchPage searchResults = mainPage.search("музыка");
         VideoPage video = searchResults.openFirstVideo();
@@ -54,7 +53,7 @@ public class RutubeTests extends BaseTest {
      * Проверяет, что все видео в выдаче соответствуют обоим критериям.
      */
     @Test
-    public void test2_applyFilters() {
+    public void applyFilters() {
         MainPage mainPage = new MainPage();
         SearchPage searchResults = mainPage.search("новости");
 
@@ -80,7 +79,7 @@ public class RutubeTests extends BaseTest {
      * вводит новый запрос "кино" и проверяет, что результаты обновились.
      */
     @Test
-    public void test3_changeSearchQuery() {
+    public void changeSearchQuery() {
         MainPage mainPage = new MainPage();
         SearchPage searchResults = mainPage.search("музыка");
 
@@ -108,7 +107,7 @@ public class RutubeTests extends BaseTest {
      * Проверяет, что форма жалобы открылась.
      */
     @Test
-    public void test4_sendComplaint() {
+    public void sendComplaint() {
         MainPage mainPage = new MainPage();
         SearchPage searchResults = mainPage.search("Фильмы");
         VideoPage video = searchResults.openFirstVideo();
@@ -124,7 +123,7 @@ public class RutubeTests extends BaseTest {
      * Проверяет, что главная страница открыта и интерфейс не сломался.
      */
     @Test
-    public void test5_emptySearch() {
+    public void emptySearch() {
         MainPage mainPage = new MainPage();
         mainPage.search("");
         mainPage.goToTop();
@@ -140,7 +139,7 @@ public class RutubeTests extends BaseTest {
      * Проверяет, что подписка успешно оформлена.
      */
     @Test
-    public void test6_searchChannelAndSubscribe() {
+    public void searchChannelAndSubscribe() {
         MainPage mainPage = new MainPage();
         SearchPage searchResults = mainPage.search("Матч ТВ");
         searchResults.goToChannelsTab();
@@ -161,7 +160,7 @@ public class RutubeTests extends BaseTest {
      * Проверяет, что страница видео открыта.
      */
     @Test
-    public void test7_copyVideoLink() {
+    public void copyVideoLink() {
         MainPage mainPage = new MainPage();
         SearchPage searchResults = mainPage.search("Новости");
         VideoPage video = searchResults.openFirstVideo();
@@ -177,7 +176,7 @@ public class RutubeTests extends BaseTest {
      * Проверяет, что страница видео открыта.
      */
     @Test
-    public void test8_addToWatchLater() {
+    public void addToWatchLater() {
         MainPage mainPage = new MainPage();
         SearchPage searchResults = mainPage.search("Музыка");
         VideoPage video = searchResults.openFirstVideo();
@@ -195,7 +194,7 @@ public class RutubeTests extends BaseTest {
      * Проверяет, что страница видео открыта.
      */
     @Test
-    public void test9_likeAndDislike() {
+    public void likeAndDislike() {
         MainPage mainPage = new MainPage();
         SearchPage searchResults = mainPage.search("Музыка");
         VideoPage video = searchResults.openFirstVideo();
@@ -212,7 +211,7 @@ public class RutubeTests extends BaseTest {
      * Проверяет, что страница видео открыта.
      */
     @Test
-    public void test10_videoSettings() {
+    public void videoSettings() {
         MainPage mainPage = new MainPage();
         SearchPage searchResults = mainPage.search("Музыка");
         VideoPage video = searchResults.openFirstVideo();
