@@ -9,11 +9,20 @@ import static com.codeborne.selenide.Selenide.$x;
  */
 public class PlaylistPage extends BasePage {
 
+    private static final String LIKED_PLAYLIST_XPATH =
+            "//section[contains(@class, 'wdp-my-liked-module__content')]";
+
+    private static final String WATCH_LATER_PLAYLIST_XPATH =
+            "//section[contains(@class, 'wdp-my-watch-later-module__grid')]";
+
+    private static final String VIDEO_TITLE_XPATH =
+            "//*[contains(text(), '%s')]";
+
     /**
      * Конструктор для страницы плейлиста "Понравилось".
      */
     public PlaylistPage() {
-        super(PlaylistPage.class, "//section[contains(@class, 'wdp-my-liked-module__content')]", "");
+        super(PlaylistPage.class, LIKED_PLAYLIST_XPATH, "");
     }
 
     /**
@@ -21,7 +30,7 @@ public class PlaylistPage extends BasePage {
      * Используется для различных типов плейлистов, например "Смотреть позже".
      */
     public PlaylistPage(String type) {
-        super(PlaylistPage.class, "//section[contains(@class, 'wdp-my-watch-later-module__grid')]", "");
+        super(PlaylistPage.class, WATCH_LATER_PLAYLIST_XPATH, "");
     }
 
     /**
@@ -29,7 +38,7 @@ public class PlaylistPage extends BasePage {
      * Ищет элемент с текстом, совпадающим с названием видео.
      */
     public boolean isVideoInPlaylist(String videoTitle) {
-        return $x(String.format("//*[contains(text(), '%s')]", videoTitle)).exists();
+        return $x(String.format(VIDEO_TITLE_XPATH, videoTitle)).exists();
     }
 
     /**
@@ -37,6 +46,6 @@ public class PlaylistPage extends BasePage {
      * Ищет элемент с текстом, совпадающим с названием видео.
      */
     public boolean isVideoNotInPlaylist(String videoTitle) {
-        return !$x(String.format("//*[contains(text(), '%s')]", videoTitle)).exists();
+        return !$x(String.format(VIDEO_TITLE_XPATH, videoTitle)).exists();
     }
 }

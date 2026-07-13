@@ -5,33 +5,25 @@ import pages.MainPage;
 import pages.SearchPage;
 import pages.VideoPage;
 import pages.ChannelPage;
-import pages.PlaylistPage;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static utils.Utils.parseDuration;
 
 public class RutubeTests extends BaseTest {
 
-    /**
-     * Парсит строку с длительностью видеоролика в секунды.
-     * Поддерживает форматы "MM:SS" и "HH:MM:SS".
-     */
-    private int parseDuration(String duration) {
-        String[] parts = duration.split(":");
+    private static final String EMPTY_QUERY = "";
 
-        if (parts.length == 3) {
-            int h = Integer.parseInt(parts[0]);
-            int m = Integer.parseInt(parts[1]);
-            int s = Integer.parseInt(parts[2]);
+    private static final String CINEMA_QUERY = "кино";
+    private static final String MATCH_TV_QUERY = "Матч ТВ";
+    private static final String MOVIES_QUERY = "фильмы";
+    private static final String MUSIC_QUERY = "музыка";
+    private static final String NEWS_QUERY = "новости";
 
-            return h * 3600 + m * 60 + s;
-        }
+    private static final String FILTER_TODAY = "За сегодня";
+    private static final String FILTER_DURATION_20_60 = "20–60 минут";
 
-        int m = Integer.parseInt(parts[0]);
-        int s = Integer.parseInt(parts[1]);
-
-        return m * 60 + s;
-    }
+    private static final String QUALITY_1080P = "1080p";
 
     /**
      * Тест 1. Поиск видео.
@@ -39,9 +31,9 @@ public class RutubeTests extends BaseTest {
      * Проверяет, что видео успешно приостановилось.
      */
     @Test
-    public void test1_searchVideoAndPause() {
+    public void searchVideoAndPause() {
         MainPage mainPage = new MainPage();
-        SearchPage searchResults = mainPage.search("музыка");
+        SearchPage searchResults = mainPage.search(MUSIC_QUERY);
         VideoPage video = searchResults.openFirstVideo();
         video.pause();
 
@@ -54,13 +46,13 @@ public class RutubeTests extends BaseTest {
      * Проверяет, что все видео в выдаче соответствуют обоим критериям.
      */
     @Test
-    public void test2_applyFilters() {
+    public void applyFilters() {
         MainPage mainPage = new MainPage();
-        SearchPage searchResults = mainPage.search("новости");
+        SearchPage searchResults = mainPage.search(NEWS_QUERY);
 
         searchResults.openFilters()
-                .applyFilter("За сегодня")
-                .applyFilter("20–60 минут");
+                .applyFilter(FILTER_TODAY)
+                .applyFilter(FILTER_DURATION_20_60);
 
         String publishDate = searchResults.getFirstVideoPublishDate();
         String duration    = searchResults.getFirstVideoDuration();
@@ -80,21 +72,21 @@ public class RutubeTests extends BaseTest {
      * вводит новый запрос "кино" и проверяет, что результаты обновились.
      */
     @Test
-    public void test3_changeSearchQuery() {
+    public void changeSearchQuery() {
         MainPage mainPage = new MainPage();
-        SearchPage searchResults = mainPage.search("музыка");
+        SearchPage searchResults = mainPage.search(MUSIC_QUERY);
 
         String firstTitleBefore = searchResults.getFirstVideoTitle();
 
         searchResults.clearSearch();
-        searchResults.searchAgain("кино");
+        searchResults.searchAgain(CINEMA_QUERY);
 
         String firstTitleAfter = searchResults.getFirstVideoTitle();
         String searchInputValue = searchResults.getSearchInputValue();
 
         assertThat(searchInputValue)
                 .as("Запрос должен обновиться")
-                .isEqualTo("кино");
+                .isEqualTo(CINEMA_QUERY);
 
         assertThat(firstTitleAfter)
                 .as("Результаты поиска должны обновиться")
@@ -103,14 +95,14 @@ public class RutubeTests extends BaseTest {
 
     /**
      * Тест 4. Отправка жалобы на видео.
-     * Выполняет поиск по запросу "Фильмы", открывает первое видео
+     * Выполняет поиск по запросу "фильмы", открывает первое видео
      * и отправляет жалобу через контекстное меню.
      * Проверяет, что форма жалобы открылась.
      */
     @Test
-    public void test4_sendComplaint() {
+    public void sendComplaint() {
         MainPage mainPage = new MainPage();
-        SearchPage searchResults = mainPage.search("Фильмы");
+        SearchPage searchResults = mainPage.search(MOVIES_QUERY);
         VideoPage video = searchResults.openFirstVideo();
         video.reportVideo();
         // Проверяем, что открылась форма жалобы
@@ -124,9 +116,9 @@ public class RutubeTests extends BaseTest {
      * Проверяет, что главная страница открыта и интерфейс не сломался.
      */
     @Test
-    public void test5_emptySearch() {
+    public void emptySearch() {
         MainPage mainPage = new MainPage();
-        mainPage.search("");
+        mainPage.search(EMPTY_QUERY);
         mainPage.goToTop();
         mainPage.openMainPage();
 
@@ -140,9 +132,9 @@ public class RutubeTests extends BaseTest {
      * Проверяет, что подписка успешно оформлена.
      */
     @Test
-    public void test6_searchChannelAndSubscribe() {
+    public void searchChannelAndSubscribe() {
         MainPage mainPage = new MainPage();
-        SearchPage searchResults = mainPage.search("Матч ТВ");
+        SearchPage searchResults = mainPage.search(MATCH_TV_QUERY);
         searchResults.goToChannelsTab();
 
         // Открываем первый канал из результатов
@@ -156,14 +148,14 @@ public class RutubeTests extends BaseTest {
 
     /**
      * Тест 7. Копирование ссылки на видео.
-     * Выполняет поиск по запросу "Новости", открывает первое видео
+     * Выполняет поиск по запросу "новости", открывает первое видео
      * и копирует ссылку на него.
      * Проверяет, что страница видео открыта.
      */
     @Test
-    public void test7_copyVideoLink() {
+    public void copyVideoLink() {
         MainPage mainPage = new MainPage();
-        SearchPage searchResults = mainPage.search("Новости");
+        SearchPage searchResults = mainPage.search(NEWS_QUERY);
         VideoPage video = searchResults.openFirstVideo();
         video.copyLink();
 
@@ -172,14 +164,14 @@ public class RutubeTests extends BaseTest {
 
     /**
      * Тест 8. Добавление видео в "Смотреть позже".
-     * Выполняет поиск по запросу "Музыка", открывает первое видео,
+     * Выполняет поиск по запросу "музыка", открывает первое видео,
      * открывает контекстное меню и добавляет видео в плейлист "Смотреть позже".
      * Проверяет, что страница видео открыта.
      */
     @Test
-    public void test8_addToWatchLater() {
+    public void addToWatchLater() {
         MainPage mainPage = new MainPage();
-        SearchPage searchResults = mainPage.search("Музыка");
+        SearchPage searchResults = mainPage.search(MUSIC_QUERY);
         VideoPage video = searchResults.openFirstVideo();
         video.openMenu();
         // Нажимаем "Смотреть позже"
@@ -190,14 +182,14 @@ public class RutubeTests extends BaseTest {
 
     /**
      * Тест 9. Оценка видео (лайк/дизлайк).
-     * Выполняет поиск по запросу "Музыка", открывает первое видео,
+     * Выполняет поиск по запросу "музыка", открывает первое видео,
      * ставит лайк, а затем меняет его на дизлайк.
      * Проверяет, что страница видео открыта.
      */
     @Test
-    public void test9_likeAndDislike() {
+    public void likeAndDislike() {
         MainPage mainPage = new MainPage();
-        SearchPage searchResults = mainPage.search("Музыка");
+        SearchPage searchResults = mainPage.search(MUSIC_QUERY);
         VideoPage video = searchResults.openFirstVideo();
         video.like();
         video.dislike();
@@ -207,16 +199,16 @@ public class RutubeTests extends BaseTest {
 
     /**
      * Тест 10. Настройка видео (качество и формат).
-     * Выполняет поиск по запросу "Музыка", открывает первое видео,
+     * Выполняет поиск по запросу "музыка", открывает первое видео,
      * устанавливает качество "1080p" и переключает полноэкранный режим.
      * Проверяет, что страница видео открыта.
      */
     @Test
-    public void test10_videoSettings() {
+    public void videoSettings() {
         MainPage mainPage = new MainPage();
-        SearchPage searchResults = mainPage.search("Музыка");
+        SearchPage searchResults = mainPage.search(MUSIC_QUERY);
         VideoPage video = searchResults.openFirstVideo();
-        video.setQuality("1080p");
+        video.setQuality(QUALITY_1080P);
         video.toggleFullscreen();
 
         assertThat(video.isDisplayed()).as("Страница видео должна быть открыта").isTrue();
