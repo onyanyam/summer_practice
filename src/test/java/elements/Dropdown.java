@@ -7,6 +7,7 @@ import static com.codeborne.selenide.Selenide.$x;
 public class Dropdown extends BaseElement {
 
     private static final String CLASS_XPATH = "//div[contains(@class, '%s')]";
+    private static final String OPTION_XPATH = ".//*[contains(text(), '%s')]";
 
     private Dropdown(String xpath, String param) {
         super(xpath, param);
@@ -14,7 +15,7 @@ public class Dropdown extends BaseElement {
 
     public void selectOption(String optionText) {
         baseElement.click();
-        SelenideElement option = $x(String.format(".//*[contains(text(), '%s')]", optionText));
+        SelenideElement option = $x(String.format(OPTION_XPATH, optionText));
         option.click();
     }
 

@@ -12,11 +12,17 @@ import static com.codeborne.selenide.Selenide.$x;
  */
 public class MainPage extends BasePage {
 
+    private static final String SEARCH_PLACEHOLDER = "Поиск";
+    private static final String SEARCH_BUTTON_TEXT = "Найти";
+
+    private static final String LOGO_BUTTON_XPATH = "//button[@data-testid='rutube-logo']";
+    private static final String TOP_LINK_XPATH = "//a[contains(@href, '/feeds/top/')]";
+
     // Реальные элементы на главной странице Rutube
-    private final Input searchInput = Input.byPlaceholder("Поиск");
-    private final Button searchButton = Button.byText("Найти");
-    private final Button logoLink = Button.byXpath("//button[@data-testid='rutube-logo']");
-    private final Button topLink = Button.byXpath("//a[contains(@href, '/feeds/top/')]");
+    private final Input searchInput = Input.byPlaceholder(SEARCH_PLACEHOLDER);
+    private final Button searchButton = Button.byText(SEARCH_BUTTON_TEXT);
+    private final Button logoLink = Button.byXpath(LOGO_BUTTON_XPATH);
+    private final Button topLink = Button.byXpath(TOP_LINK_XPATH);
 
     /**
      * Конструктор главной страницы.

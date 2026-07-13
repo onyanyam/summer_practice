@@ -9,10 +9,18 @@ import elements.Link;
  */
 public class ChannelPage extends BasePage {
 
+    private static final String SUBSCRIBE_BUTTON_XPATH =
+            "//button[contains(@class, 'wdp-subscribe-button-module__button')]";
+
+    private static final String SUBSCRIBED_BUTTON_XPATH =
+            "//button[contains(@class, 'wdp-subscribe-button-module__button') and contains(., 'Вы подписаны')]";
+
+    private static final String CHANNEL_LOGO_CLASS = "wdp-video-options-row-module__authorAvatar";
+
     // Кнопка подписки на канал
-    private final Button subscribeButton = Button.byXpath("//button[contains(@class, 'wdp-subscribe-button-module__button')]");
+    private final Button subscribeButton = Button.byXpath(SUBSCRIBE_BUTTON_XPATH);
     // Ссылка на логотип канала
-    private final Link channelLogo = Link.byClass("wdp-video-options-row-module__authorAvatar");
+    private final Link channelLogo = Link.byClass(CHANNEL_LOGO_CLASS);
 
     /**
      * Конструктор страницы канала.
@@ -38,7 +46,7 @@ public class ChannelPage extends BasePage {
      * Ищет кнопку с текстом "Вы подписаны" и проверяет её отображение.
      */
     public boolean isSubscribed() {
-        return Button.byXpath("//button[contains(@class, 'wdp-subscribe-button-module__button') and contains(., 'Вы подписаны')]").isDisplayed();
+        return Button.byXpath(SUBSCRIBED_BUTTON_XPATH).isDisplayed();
     }
 
     /**

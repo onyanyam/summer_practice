@@ -13,14 +13,37 @@ import static com.codeborne.selenide.Selenide.$x;
  */
 public class VideoPage extends BasePage {
 
+    private static final String SHARE_BUTTON_XPATH =
+            "//button[.//span[contains(text(), 'Поделиться')]]";
+
+    private static final String COPY_LINK_BUTTON_XPATH =
+            "//button[@aria-label='copy']";
+
+    private static final String MENU_BUTTON_XPATH =
+            "//button[@data-testid='menu-action-video-row']";
+
+    private static final String REPORT_BUTTON_XPATH =
+            "//a[contains(@class, 'wdp-complaint-link-module__link') and contains(., 'Пожаловаться')]";
+
+    private static final String LIKE_BUTTON_XPATH =
+            "//button[@title='Нравится']";
+
+    private static final String DISLIKE_BUTTON_XPATH =
+            "//button[@title='Не нравится']";
+
+
+    private static final String CHANNEL_LINK_CLASS =
+            "wdp-video-options-row-module__author";
+
+
     private final VideoPlayer videoPlayer = new VideoPlayer();
-    private final Button shareButton = Button.byXpath("//button[.//span[contains(text(), 'Поделиться')]]");
-    private final Button copyLinkButton = Button.byXpath("//button[@aria-label='copy']");
-    private final Button menuButton = Button.byXpath("//button[@data-testid='menu-action-video-row']");
-    private final Button reportButton = Button.byXpath("//a[contains(@class, 'wdp-complaint-link-module__link') and contains(., 'Пожаловаться')]");
-    private final Link channelLink = Link.byClass("wdp-video-options-row-module__author");
-    private final Button likeButton = Button.byXpath("//button[@title='Нравится']");
-    private final Button dislikeButton = Button.byXpath("//button[@title='Не нравится']");
+    private final Button shareButton = Button.byXpath(SHARE_BUTTON_XPATH);
+    private final Button copyLinkButton = Button.byXpath(COPY_LINK_BUTTON_XPATH);
+    private final Button menuButton = Button.byXpath(MENU_BUTTON_XPATH);
+    private final Button reportButton = Button.byXpath(REPORT_BUTTON_XPATH);
+    private final Link channelLink = Link.byClass(CHANNEL_LINK_CLASS);
+    private final Button likeButton = Button.byXpath(LIKE_BUTTON_XPATH);
+    private final Button dislikeButton = Button.byXpath(DISLIKE_BUTTON_XPATH);
 
     /**
      * Конструктор страницы с видео

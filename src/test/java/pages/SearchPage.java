@@ -17,15 +17,53 @@ import static com.codeborne.selenide.Selenide.$x;
  */
 public class SearchPage extends BasePage {
 
-    private final SelenideElement filtersPanel =
-            $x("//div[contains(@class, 'search-filters-module__searchFiltersAdvanced')]");
-    private final SelenideElement firstCard = $x("//article[@data-pos-num='0']");
+    private static final String SEARCH_PLACEHOLDER = "Поиск";
 
-    private final Button filterButton = Button.byXpath("//div[contains(text(), 'Фильтры')]/parent::button");
-    private final Button channelsTab = Button.byXpath("//button[@role='tab' and contains(., 'Каналы')]");
-    private final Button firstVideo = Button.byXpath("//a[contains(@class, 'wdp-card-poster-module__posterWrapperBase')]");
-    private final Button clearButton = Button.byXpath("//button[@aria-label='Очистить поле']");
-    private final Input searchInput = Input.byPlaceholder("Поиск");
+
+    private static final String FILTERS_PANEL_XPATH =
+            "//div[contains(@class, 'search-filters-module__searchFiltersAdvanced')]";
+
+    private static final String FILTER_BUTTON_XPATH =
+            "//div[contains(text(), 'Фильтры')]/parent::button";
+
+    private static final String FILTER_OPTION_XPATH =
+            "//button[contains(text(), '%s')]";
+
+    private static final String ACTIVE_FILTER_CLASS =
+            "search-filters-module__searchFiltersAdvancedBlockButtonActive";
+
+
+    private static final String FIRST_CARD_XPATH =
+            "//article[@data-pos-num='0']";
+
+    private static final String FIRST_VIDEO_XPATH =
+            "//a[contains(@class, 'wdp-card-poster-module__posterWrapperBase')]";
+
+    private static final String FIRST_VIDEO_TITLE_XPATH =
+            ".//a[contains(@class, 'videoTitle')]";
+
+    private static final String FIRST_VIDEO_PUBLISH_DATE_XPATH =
+            ".//p[contains(@class, 'metaInfoPublishDate')]";
+
+    private static final String FIRST_VIDEO_DURATION_XPATH =
+            ".//span[contains(@class, 'duration')]";
+
+
+    private static final String CHANNELS_TAB_XPATH =
+            "//button[@role='tab' and contains(., 'Каналы')]";
+
+    private static final String CLEAR_BUTTON_XPATH =
+            "//button[@aria-label='Очистить поле']";
+
+
+    private final SelenideElement filtersPanel = $x(FILTERS_PANEL_XPATH);
+    private final SelenideElement firstCard = $x(FIRST_CARD_XPATH);
+
+    private final Button filterButton = Button.byXpath(FILTER_BUTTON_XPATH);
+    private final Button channelsTab = Button.byXpath(CHANNELS_TAB_XPATH);
+    private final Button firstVideo = Button.byXpath(FIRST_VIDEO_XPATH);
+    private final Button clearButton = Button.byXpath(CLEAR_BUTTON_XPATH);
+    private final Input searchInput = Input.byPlaceholder(SEARCH_PLACEHOLDER);
 
     /**
      * Проверяет, открыта ли панель фильтров.
@@ -76,13 +114,13 @@ public class SearchPage extends BasePage {
         waitForResultsLoad();
 
         // Ждем появления необходимого фильтра
-        SelenideElement option = $x(String.format("//button[contains(text(), '%s')]", filterValue));
+        SelenideElement option = $x(String.format(FILTER_OPTION_XPATH, filterValue));
         option.shouldBe(visible);
 
         // Выбираем фильтр и ожидаем активации
         option.click();
         option.shouldHave(
-                cssClass("search-filters-module__searchFiltersAdvancedBlockButtonActive")
+                cssClass(ACTIVE_FILTER_CLASS)
         );
 
         return this;
@@ -101,7 +139,7 @@ public class SearchPage extends BasePage {
      */
     public String getFirstVideoTitle() {
         return firstCard
-                .$x(".//a[contains(@class, 'videoTitle')]")
+                .$x(FIRST_VIDEO_TITLE_XPATH)
                 .getText();
     }
 
@@ -110,7 +148,7 @@ public class SearchPage extends BasePage {
      */
     public String getFirstVideoPublishDate() {
         return firstCard
-                .$x(".//p[contains(@class, 'metaInfoPublishDate')]")
+                .$x(FIRST_VIDEO_PUBLISH_DATE_XPATH)
                 .getText();
     }
 
@@ -119,7 +157,7 @@ public class SearchPage extends BasePage {
      */
     public String getFirstVideoDuration() {
         return firstCard
-                .$x(".//span[contains(@class, 'duration')]")
+                .$x(FIRST_VIDEO_DURATION_XPATH)
                 .getText();
     }
 

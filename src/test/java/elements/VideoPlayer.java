@@ -7,15 +7,42 @@ import static com.codeborne.selenide.Selenide.$x;
 
 public class VideoPlayer extends BaseElement {
 
+    private static final String PLAY_LABEL = "Воспроизвести";
+
+
+    private static final String VIDEO_PLAYER_XPATH =
+            "//div[contains(@class, 'touch-handlers-layout-module__layout')]";
+
+    private static final String PLAY_BUTTON_XPATH =
+            ".//button[@data-testid='ui-play']";
+
+    private static final String SETTINGS_BUTTON_XPATH =
+            ".//button[contains(@class, 'settings-module__settingBtn')]";
+
+    private static final String QUALITY_OPTION_XPATH =
+            "//span[contains(text(), '%s')]";
+
+    private static final String FULLSCREEN_BUTTON_XPATH =
+            ".//button[@data-testid='ui-fullscreen']";
+
+    private static final String CINEMA_BUTTON_XPATH =
+            ".//button[@data-testid='ui-cinema']";
+
+    private static final String SHARE_BUTTON_XPATH =
+            "//button[.//span[contains(text(), 'Поделиться')]]";
+
+    private static final String MENU_BUTTON_XPATH =
+            ".//button[@data-testid='menu-action-video-row']";
+
     public VideoPlayer() {
-        super("//div[contains(@class, 'touch-handlers-layout-module__layout')]", "");
+        super(VIDEO_PLAYER_XPATH, "");
     }
 
     public void pause() {
         waitForLoad();
         hover();
 
-        SelenideElement playButton = baseElement.$x(".//button[@data-testid='ui-play']");
+        SelenideElement playButton = baseElement.$x(PLAY_BUTTON_XPATH);
         if (playButton.exists() && !isPaused()) {
             playButton.click();
         }
@@ -25,7 +52,7 @@ public class VideoPlayer extends BaseElement {
         waitForLoad();
         hover();
 
-        SelenideElement pauseButton = baseElement.$x(".//button[@data-testid='ui-play']");
+        SelenideElement pauseButton = baseElement.$x(PLAY_BUTTON_XPATH);
         if (pauseButton.exists() && isPaused()) {
             pauseButton.click();
         }
@@ -33,36 +60,36 @@ public class VideoPlayer extends BaseElement {
 
     public boolean isPaused() {
         String label = baseElement
-                .$x(".//button[@data-testid='ui-play']")
+                .$x(PLAY_BUTTON_XPATH)
                 .getAttribute("aria-label");
 
-        return label != null && label.contains("Воспроизвести");
+        return label != null && label.contains(PLAY_LABEL);
     }
 
     public void setQuality(String quality) {
-        SelenideElement settingsButton = baseElement.$x(".//button[contains(@class, 'settings-module__settingBtn')]");
+        SelenideElement settingsButton = baseElement.$x(SETTINGS_BUTTON_XPATH);
         settingsButton.click();
-        SelenideElement qualityOption = $x(String.format("//span[contains(text(), '%s')]", quality));
+        SelenideElement qualityOption = $x(String.format(QUALITY_OPTION_XPATH, quality));
         qualityOption.click();
     }
 
     public void toggleFullscreen() {
-        SelenideElement fullscreenButton = baseElement.$x(".//button[@data-testid='ui-fullscreen']");
+        SelenideElement fullscreenButton = baseElement.$x(FULLSCREEN_BUTTON_XPATH);
         fullscreenButton.click();
     }
 
     public void toggleCinemaMode() {
-        SelenideElement cinemaButton = baseElement.$x(".//button[@data-testid='ui-cinema']");
+        SelenideElement cinemaButton = baseElement.$x(CINEMA_BUTTON_XPATH);
         cinemaButton.click();
     }
 
     public void share() {
-        SelenideElement shareButton = Button.byXpath("//button[.//span[contains(text(), 'Поделиться')]]").getBaseElement();
+        SelenideElement shareButton = Button.byXpath(SHARE_BUTTON_XPATH).getBaseElement();
         shareButton.click();
     }
 
     public void openMenu() {
-        SelenideElement menuButton = baseElement.$x(".//button[@data-testid='menu-action-video-row']");
+        SelenideElement menuButton = baseElement.$x(MENU_BUTTON_XPATH);
         menuButton.click();
     }
 
