@@ -15,7 +15,7 @@ public class MainPage extends BasePage {
     private static final String SEARCH_PLACEHOLDER = "Поиск";
     private static final String SEARCH_BUTTON_TEXT = "Найти";
 
-    private static final String LOGO_BUTTON_XPATH = "//button[@data-testid='rutube-logo']";
+    private static final String LOGO_BUTTON_XPATH = "//*[@data-testid='rutube-logo']";
     private static final String TOP_LINK_XPATH = "//a[contains(@href, '/feeds/top/')]";
 
     private static final String MAIN_PAGE_ROOT = "//div[contains(@class, 'main-page')]";
@@ -38,7 +38,7 @@ public class MainPage extends BasePage {
      * Если запрос пустой или null, выполняет поиск с пустым полем.
      */
     public SearchPage search(String query) {
-        if (query == null || query.isEmpty()) {
+        if (query != null && !query.isEmpty()) {
             searchInput.fill(query);
         } else {
             searchInput.fill("");;

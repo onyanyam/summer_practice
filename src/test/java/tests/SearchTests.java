@@ -55,7 +55,6 @@ public class SearchTests extends BaseTest {
 
         String firstTitleBefore = searchResults.getFirstVideoTitle();
 
-        searchResults.clearSearch();
         searchResults.searchAgain(CINEMA_QUERY);
 
         String firstTitleAfter = searchResults.getFirstVideoTitle();

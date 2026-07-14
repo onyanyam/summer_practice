@@ -40,10 +40,10 @@ public class SearchPage extends BasePage {
             "//a[contains(@class, 'wdp-card-poster-module__posterWrapperBase')]";
 
     private static final String FIRST_VIDEO_TITLE_XPATH =
-            ".//a[contains(@class, 'videoTitle')]";
+            ".//div[contains(@class, 'title')]";
 
     private static final String FIRST_VIDEO_PUBLISH_DATE_XPATH =
-            ".//p[contains(@class, 'metaInfoPublishDate')]";
+            ".//*[contains(@class, 'meta')]";
 
     private static final String FIRST_VIDEO_DURATION_XPATH =
             ".//span[contains(@class, 'duration')]";
@@ -192,7 +192,7 @@ public class SearchPage extends BasePage {
      * Очищает поле, вводит новый запрос и нажимает Enter.
      */
     public SearchPage searchAgain(String query) {
-        searchInput.fill(query);
+        searchInput.withClearButton(clearButton).fill(query);
         return this;
     }
 }

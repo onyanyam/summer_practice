@@ -11,8 +11,17 @@ public class Input extends BaseElement {
         super(xpath, param);
     }
 
+    private Button clearButton;
+
+    public Input withClearButton(Button button) {
+        this.clearButton = button;
+        return this;
+    }
+
     public void fill(String value) {
-        baseElement.clear();
+        if (clearButton != null && clearButton.isDisplayed()) {
+            clearButton.click();
+        }
         baseElement.setValue(value);
         baseElement.pressEnter();
     }
