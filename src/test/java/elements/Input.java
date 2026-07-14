@@ -1,5 +1,12 @@
 package elements;
 
+import base.BaseElement;
+
+/**
+ * Класс-обёртка для элемента "поле ввода".
+ * Предоставляет фабричные методы поиска поля по id, name, placeholder или классу,
+ * а также методы заполнения и очистки поля.
+ */
 public class Input extends BaseElement {
 
     private static final String ID_XPATH = "//input[@id='%s']";

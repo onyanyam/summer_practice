@@ -1,5 +1,12 @@
 package elements;
 
+import base.BaseElement;
+
+/**
+ * Класс-обёртка для элемента "ссылка".
+ * Предоставляет фабричные методы поиска ссылки по тексту, href или классу,
+ * а также метод клика по найденной ссылке.
+ */
 public class Link extends BaseElement {
 
     private static final String TEXT_XPATH = "//a[contains(text(), '%s')]";
@@ -8,6 +15,10 @@ public class Link extends BaseElement {
 
     private Link(String xpath, String param) {
         super(xpath, param);
+    }
+
+    public void click() {
+        baseElement.click();
     }
 
     public static Link byText(String text) {
@@ -20,10 +31,6 @@ public class Link extends BaseElement {
 
     public static Link byClass(String className) {
         return new Link(CLASS_XPATH, className);
-    }
-
-    public void click() {
-        baseElement.click();
     }
 
 }

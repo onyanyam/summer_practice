@@ -1,5 +1,7 @@
 package pages;
 
+import base.BasePage;
+
 import static com.codeborne.selenide.Selenide.$x;
 
 /**
@@ -18,17 +20,10 @@ public class PlaylistPage extends BasePage {
     private static final String VIDEO_TITLE_XPATH =
             "//*[contains(text(), '%s')]";
 
-    /**
-     * Конструктор для страницы плейлиста "Понравилось".
-     */
     public PlaylistPage() {
         super(PlaylistPage.class, LIKED_PLAYLIST_XPATH, "");
     }
 
-    /**
-     * Конструктор для страницы плейлиста с указанием типа.
-     * Используется для различных типов плейлистов, например "Смотреть позже".
-     */
     public PlaylistPage(String type) {
         super(PlaylistPage.class, WATCH_LATER_PLAYLIST_XPATH, "");
     }

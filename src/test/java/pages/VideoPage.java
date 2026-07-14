@@ -1,5 +1,6 @@
 package pages;
 
+import base.BasePage;
 import elements.Button;
 import elements.Link;
 import elements.VideoPlayer;
@@ -48,9 +49,6 @@ public class VideoPage extends BasePage {
     private final Button likeButton = Button.byXpath(LIKE_BUTTON_XPATH);
     private final Button dislikeButton = Button.byXpath(DISLIKE_BUTTON_XPATH);
 
-    /**
-     * Конструктор страницы с видео
-     */
     public VideoPage() {
         super(VideoPage.class, VIDEO_PLAYER_LAYOUT, "");
     }

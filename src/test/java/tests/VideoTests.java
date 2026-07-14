@@ -8,6 +8,11 @@ import pages.VideoPage;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * Тесты для функциональности просмотра и взаимодействия с видео на Rutube:
+ * поиск, управление воспроизведением, настройка видео
+ * и выполнение основных пользовательских действий.
+ */
 public class VideoTests extends BaseTest {
 
     private static final String MUSIC_QUERY = "музыка";

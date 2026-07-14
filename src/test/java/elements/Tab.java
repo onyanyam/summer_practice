@@ -1,5 +1,11 @@
 package elements;
 
+import base.BaseElement;
+
+/**
+ * Класс-обёртка для элемента "вкладка".
+ * Предоставляет фабричный метод поиска вкладки по тексту и метод клика по ней.
+ */
 public class Tab extends BaseElement {
 
     private static final String TEXT_XPATH = "//*[contains(@class, 'tab') and contains(text(), '%s')]";
@@ -8,12 +14,12 @@ public class Tab extends BaseElement {
         super(xpath, param);
     }
 
-    public static Tab byText(String text) {
-        return new Tab(TEXT_XPATH, text);
-    }
-
     public void click() {
         baseElement.click();
+    }
+
+    public static Tab byText(String text) {
+        return new Tab(TEXT_XPATH, text);
     }
 
 }

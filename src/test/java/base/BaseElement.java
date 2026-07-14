@@ -1,4 +1,4 @@
-package elements;
+package base;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
@@ -8,6 +8,11 @@ import java.time.Duration;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$x;
 
+/**
+ * Базовый класс для всех элементов страницы (Button, Input, Link и т.д.).
+ * Инкапсулирует общую логику поиска элемента по xpath и базовые проверки/действия,
+ * общие для всех наследников.
+ */
 public class BaseElement {
 
     protected static final int WAIT_SECONDS = 10;

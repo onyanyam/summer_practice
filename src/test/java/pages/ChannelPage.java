@@ -1,5 +1,6 @@
 package pages;
 
+import base.BasePage;
 import elements.Button;
 import elements.Link;
 
@@ -19,14 +20,9 @@ public class ChannelPage extends BasePage {
 
     private static final String CHANNEL_PAGE_ROOT = "//div[contains(@class, 'channel-page')]";
 
-    // Кнопка подписки на канал
     private final Button subscribeButton = Button.byXpath(SUBSCRIBE_BUTTON_XPATH);
-    // Ссылка на логотип канала
     private final Link channelLogo = Link.byClass(CHANNEL_LOGO_CLASS);
 
-    /**
-     * Конструктор страницы канала.
-     */
     public ChannelPage() {
         super(ChannelPage.class, CHANNEL_PAGE_ROOT, "");
     }

@@ -1,5 +1,6 @@
 package pages;
 
+import base.BasePage;
 import com.codeborne.selenide.SelenideElement;
 import elements.Button;
 import elements.Link;
@@ -68,24 +69,6 @@ public class SearchPage extends BasePage {
     private final Button clearButton = Button.byXpath(CLEAR_BUTTON_XPATH);
     private final Input searchInput = Input.byPlaceholder(SEARCH_PLACEHOLDER);
 
-    /**
-     * Проверяет, открыта ли панель фильтров.
-     */
-    private boolean isFiltersOpened() {
-        return filtersPanel.isDisplayed();
-    }
-
-    /**
-     * Ожидает загрузки результатов поиска.
-     * Проверяет наличие первого видео на странице результатов.
-     */
-    private void waitForResultsLoad() {
-        firstVideo.waitForLoad();
-    }
-
-    /**
-     * Конструктор страницы поиска.
-     */
     public SearchPage() {
         super(SearchPage.class, SEARCH_RESULTS_ROOT, "");
     }
@@ -96,7 +79,6 @@ public class SearchPage extends BasePage {
      * открыты ли фильтры, и если нет, то кликает по кнопке "Фильтры".
      */
     public SearchPage openFilters() {
-        // Ждем загрузки результатов и открываем фильтры, если они не открыты
         waitForResultsLoad();
 
         if (!isFiltersOpened()) {
@@ -122,31 +104,12 @@ public class SearchPage extends BasePage {
         return this;
     }
 
-    // Метод для поиска фильтра
-    private SelenideElement findFilterOption(String filterValue) {
-        SelenideElement option = $x(String.format(FILTER_OPTION_XPATH, filterValue));
-        option.shouldBe(visible);
-        return option;
-    }
-
-    // Метод для ожидания активации
-    private void waitForFilterActivation(SelenideElement option) {
-        option.shouldHave(cssClass(ACTIVE_FILTER_CLASS));
-    }
-
     /**
      * Открывает первое видео в результатах поиска.
      */
     public VideoPage openFirstVideo() {
         firstVideo.click();
         return new VideoPage();
-    }
-
-    /**
-     * Метод, который находит элемент по Xpath внутри первого видео.
-     */
-    private String getFirstVideoAttribute(String xpath) {
-        return firstCard.$x(xpath).getText();
     }
 
     /**
@@ -194,5 +157,37 @@ public class SearchPage extends BasePage {
     public SearchPage searchAgain(String query) {
         searchInput.withClearButton(clearButton).fill(query);
         return this;
+    }
+
+    /**
+     * Проверяет, открыта ли панель фильтров.
+     */
+    private boolean isFiltersOpened() {
+        return filtersPanel.isDisplayed();
+    }
+
+    /**
+     * Ожидает загрузки результатов поиска.
+     * Проверяет наличие первого видео на странице результатов.
+     */
+    private void waitForResultsLoad() {
+        firstVideo.waitForLoad();
+    }
+
+    private SelenideElement findFilterOption(String filterValue) {
+        SelenideElement option = $x(String.format(FILTER_OPTION_XPATH, filterValue));
+        option.shouldBe(visible);
+        return option;
+    }
+
+    private void waitForFilterActivation(SelenideElement option) {
+        option.shouldHave(cssClass(ACTIVE_FILTER_CLASS));
+    }
+
+    /**
+     * Находит элемент по Xpath внутри первого видео.
+     */
+    private String getFirstVideoAttribute(String xpath) {
+        return firstCard.$x(xpath).getText();
     }
 }

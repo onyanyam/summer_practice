@@ -9,6 +9,9 @@ import pages.VideoPage;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * Тесты для функциональности подписки на канал на Rutube.
+ */
 public class SubscriptionTests extends BaseTest {
 
     private static final String MATCH_TV_QUERY = "Матч ТВ";
@@ -25,7 +28,6 @@ public class SubscriptionTests extends BaseTest {
         SearchPage searchResults = mainPage.search(MATCH_TV_QUERY);
         searchResults.goToChannelsTab();
 
-        // Открываем первый канал из результатов
         VideoPage video = searchResults.openFirstVideo();
         ChannelPage channel = video.goToChannel();
         channel.subscribe();

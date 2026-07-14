@@ -1,8 +1,13 @@
-package pages;
+package base;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 
+/**
+ * Базовый класс для всех Page Object классов проекта.
+ * Хранит корневой элемент страницы и предоставляет общую проверку
+ * того, что страница отображается.
+ */
 public class BasePage {
 
     protected final SelenideElement basePage;

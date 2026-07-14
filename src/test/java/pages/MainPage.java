@@ -1,5 +1,6 @@
 package pages;
 
+import base.BasePage;
 import elements.Input;
 import elements.Button;
 import elements.Link;
@@ -20,15 +21,11 @@ public class MainPage extends BasePage {
 
     private static final String MAIN_PAGE_ROOT = "//div[contains(@class, 'main-page')]";
 
-    // Реальные элементы на главной странице Rutube
     private final Input searchInput = Input.byPlaceholder(SEARCH_PLACEHOLDER);
     private final Button searchButton = Button.byText(SEARCH_BUTTON_TEXT);
     private final Button logoLink = Button.byXpath(LOGO_BUTTON_XPATH);
     private final Button topLink = Button.byXpath(TOP_LINK_XPATH);
 
-    /**
-     * Конструктор главной страницы.
-     */
     public MainPage() {
         super(MainPage.class, MAIN_PAGE_ROOT, "");
     }

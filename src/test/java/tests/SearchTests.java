@@ -8,6 +8,10 @@ import pages.SearchPage;
 import static org.assertj.core.api.Assertions.assertThat;
 import static utils.Utils.parseDuration;
 
+/**
+ * Тесты для функциональности поиска на Rutube:
+ * применение фильтров, изменение поискового запроса и поиск с пустым запросом.
+ */
 public class SearchTests extends BaseTest {
 
     private static final String EMPTY_QUERY = "";

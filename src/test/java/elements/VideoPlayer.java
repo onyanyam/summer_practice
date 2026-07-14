@@ -1,10 +1,16 @@
 package elements;
 
+import base.BaseElement;
 import com.codeborne.selenide.SelenideElement;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$x;
 
+/**
+ * Класс-обёртка для видеоплеера Rutube.
+ * Предоставляет методы управления воспроизведением (play/pause), настройками качества,
+ * полноэкранным и кинотеатральным режимом, а также действия "поделиться" и открытие меню.
+ */
 public class VideoPlayer extends BaseElement {
 
     private static final String PLAY_LABEL = "Воспроизвести";
@@ -36,10 +42,6 @@ public class VideoPlayer extends BaseElement {
 
     private VideoPlayer() {
         super(VIDEO_PLAYER_XPATH, "");
-    }
-
-    public static VideoPlayer getPlayer() {
-        return new VideoPlayer();
     }
 
     public void pause() {
@@ -103,5 +105,9 @@ public class VideoPlayer extends BaseElement {
 
     public void hover(){
         baseElement.hover();
+    }
+
+    public static VideoPlayer getPlayer() {
+        return new VideoPlayer();
     }
 }

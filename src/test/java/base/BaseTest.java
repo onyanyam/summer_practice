@@ -9,6 +9,11 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$x;
 import static com.codeborne.selenide.Selenide.open;
 
+/**
+ * Базовый класс для всех тестов проекта.
+ * Отвечает за настройку драйвера, открытие Rutube перед каждым тестом,
+ * закрытие всплывающих окон и корректное завершение сессии браузера после теста.
+ */
 public class BaseTest {
 
     private static final String COOKIE_BUTTON_XPATH =
@@ -25,7 +30,6 @@ public class BaseTest {
         Configuration.pageLoadTimeout = 60000;
         Configuration.headless = false;
 
-        // Открываем Rutube
         open("https://rutube.ru");
 
         closePopups();
