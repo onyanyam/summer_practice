@@ -2,12 +2,16 @@ package base;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.WebDriverRunner;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.openqa.selenium.Cookie;
+import java.io.File;
 import java.time.Duration;
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$x;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 
 /**
  * Базовый класс для всех тестов проекта.
@@ -33,6 +37,10 @@ public class BaseTest {
         open("https://rutube.ru");
 
         closePopups();
+
+        loadCookiesFromFile("src/test/resources/cookies.json");
+
+        refresh();
     }
 
     public void closePopups() {
@@ -45,6 +53,25 @@ public class BaseTest {
                     .shouldBe(visible, Duration.ofSeconds(2))
                     .click();
         } catch (Exception e) {
+        }
+    }
+
+    private void loadCookiesFromFile(String filePath) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            JsonNode cookies = mapper.readTree(new File(filePath));
+            for (JsonNode node : cookies) {
+                Cookie cookie = new Cookie(
+                        node.get("name").asText(),
+                        node.get("value").asText(),
+                        node.get("domain").asText(),
+                        node.get("path").asText(),
+                        null
+                );
+                WebDriverRunner.getWebDriver().manage().addCookie(cookie);
+            }
+        } catch (Exception e) {
+            System.err.println("Ошибка при чтении кук: " + e.getMessage());
         }
     }
 

@@ -1,6 +1,7 @@
 package pages;
 
 import base.BasePage;
+import com.codeborne.selenide.Selenide;
 
 import static com.codeborne.selenide.Selenide.$x;
 
@@ -28,6 +29,7 @@ public class PlaylistPage extends BasePage {
      * Создаёт экземпляр страницы плейлиста "Понравилось".
      */
     public static PlaylistPage likedPlaylist() {
+        Selenide.open("https://rutube.ru/my/liked/");
         return new PlaylistPage(LIKED_PLAYLIST_XPATH);
     }
 

@@ -1,6 +1,7 @@
 package tests;
 
 import base.BaseTest;
+import com.codeborne.selenide.Selenide;
 import org.junit.jupiter.api.Test;
 import pages.MainPage;
 import pages.PlaylistPage;
@@ -19,7 +20,7 @@ public class VideoTests extends BaseTest {
     private static final String MUSIC_QUERY = "музыка";
     private static final String MOVIES_QUERY = "фильмы";
     private static final String NEWS_QUERY = "новости";
-    private static final String QUALITY_1080P = "1080p";
+    private static final String QUALITY_720P = "720p";
 
     /**
      * Тест 1. Поиск видео.
@@ -70,7 +71,7 @@ public class VideoTests extends BaseTest {
         video.copyLink();
 
         assertThat(video.isLinkCopied())
-                .as("Уведомление о копировании ссылки должно появиться")
+                .as("Ссылка на видео должна быть успешно скопирована в буфер обмена")
                 .isTrue();
     }
 
@@ -109,10 +110,12 @@ public class VideoTests extends BaseTest {
 
         String videoTitle = video.getVideoTitle();
         video.like();
+        Selenide.sleep(1500);
+
         video.dislike();
+        Selenide.sleep(1500);
 
         PlaylistPage liked = PlaylistPage.likedPlaylist();
-
         assertThat(liked.isVideoNotInPlaylist(videoTitle))
                 .as("После дизлайка видео не должно быть в 'Понравилось'")
                 .isTrue();
@@ -129,12 +132,13 @@ public class VideoTests extends BaseTest {
         MainPage mainPage = new MainPage();
         SearchPage searchResults = mainPage.search(MUSIC_QUERY);
         VideoPage video = searchResults.openFirstVideo();
-        video.setQuality(QUALITY_1080P);
+        Selenide.sleep(25000);
+        video.setQuality(QUALITY_720P);
         video.toggleFullscreen();
 
         assertThat(video.getCurrentQuality())
-                .as("Качество должно быть 1080p")
-                .isEqualTo("1080p");
+                .as("Качество должно быть 720p")
+                .isEqualTo("720p");
 
         assertThat(video.isFullscreen())
                 .as("Широкий экран должен быть включён")

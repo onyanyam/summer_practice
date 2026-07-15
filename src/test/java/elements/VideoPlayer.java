@@ -1,6 +1,7 @@
 package elements;
 
 import base.BaseElement;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 
 import static com.codeborne.selenide.Condition.visible;
@@ -26,13 +27,16 @@ public class VideoPlayer extends BaseElement {
             ".//button[contains(@class, 'settings-module__settingBtn')]";
 
     private static final String QUALITY_OPTION_XPATH =
-            "//span[contains(text(), '%s')]";
+            "//*[contains(text(), '%s')]";
 
     private static final String FULLSCREEN_BUTTON_XPATH =
             ".//button[@data-testid='ui-fullscreen']";
 
     private static final String CINEMA_BUTTON_XPATH =
             ".//button[@data-testid='ui-cinema']";
+
+    private static final String QUALITY_MENU_ITEM_XPATH =
+            "//*[contains(text(), 'Качество')]";
 
     private VideoPlayer() {
         super(VIDEO_PLAYER_XPATH, "");
@@ -67,10 +71,14 @@ public class VideoPlayer extends BaseElement {
     }
 
     public void setQuality(String quality) {
+        baseElement.click();
+        Selenide.sleep(1000);
+        hover();
         SelenideElement settingsButton = baseElement.$x(SETTINGS_BUTTON_XPATH);
-        settingsButton.click();
-        SelenideElement qualityOption = $x(String.format(QUALITY_OPTION_XPATH, quality));
-        qualityOption.click();
+        settingsButton.shouldBe(visible).click();
+
+        $x(QUALITY_MENU_ITEM_XPATH).shouldBe(visible).click();
+        $x(String.format(QUALITY_OPTION_XPATH, quality)).shouldBe(visible).click();
     }
 
     public void toggleFullscreen() {

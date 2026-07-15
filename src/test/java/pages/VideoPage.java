@@ -1,6 +1,7 @@
 package pages;
 
 import base.BasePage;
+import com.codeborne.selenide.Selenide;
 import elements.Button;
 import elements.Link;
 import elements.VideoPlayer;
@@ -142,10 +143,12 @@ public class VideoPage extends BasePage {
     }
 
     /**
-     * Проверяет наличие уведомления о копировании ссылки.
+     * Проверяет, что ссылка скопирована.
      */
     public boolean isLinkCopied() {
-        return $x(COPY_NOTIFICATION_XPATH).isDisplayed();
+        String clipboardText = Selenide.clipboard().getText();
+
+        return clipboardText != null && clipboardText.contains("rutube.ru");
     }
 
     /**
@@ -193,7 +196,7 @@ public class VideoPage extends BasePage {
      * Возвращает название видео (из заголовка на странице).
      */
     public String getVideoTitle() {
-        return $x("//h1[contains(@class, 'video-title')]").getText();
+        return $x("//h1").getText();
     }
 
     /**
