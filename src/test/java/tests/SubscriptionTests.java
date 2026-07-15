@@ -33,6 +33,8 @@ public class SubscriptionTests extends BaseTest {
         channel.subscribe();
         channel.goToChannelPage();
 
-        assertThat(channel.isSubscribed()).as("Подписка должна быть оформлена").isTrue();
+        assertThat(channel.isSubscribed())
+                .as("Подписка должна быть оформлена")
+                .isTrue();
     }
 }

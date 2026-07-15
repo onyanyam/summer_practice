@@ -9,12 +9,12 @@ import static com.codeborne.selenide.Selenide.$x;
 /**
  * Класс-обёртка для видеоплеера Rutube.
  * Предоставляет методы управления воспроизведением (play/pause), настройками качества,
- * полноэкранным и кинотеатральным режимом, а также действия "поделиться" и открытие меню.
+ * полноэкранным и кинотеатральным режимом.
+ * Содержит ТОЛЬКО элементы, находящиеся внутри плеера.
  */
 public class VideoPlayer extends BaseElement {
 
     private static final String PLAY_LABEL = "Воспроизвести";
-
 
     private static final String VIDEO_PLAYER_XPATH =
             "//div[contains(@class, 'touch-handlers-layout-module__layout')]";
@@ -33,12 +33,6 @@ public class VideoPlayer extends BaseElement {
 
     private static final String CINEMA_BUTTON_XPATH =
             ".//button[@data-testid='ui-cinema']";
-
-    private static final String SHARE_BUTTON_XPATH =
-            "//button[.//span[contains(text(), 'Поделиться')]]";
-
-    private static final String MENU_BUTTON_XPATH =
-            ".//button[@data-testid='menu-action-video-row']";
 
     private VideoPlayer() {
         super(VIDEO_PLAYER_XPATH, "");
@@ -89,21 +83,11 @@ public class VideoPlayer extends BaseElement {
         cinemaButton.click();
     }
 
-    public void share() {
-        SelenideElement shareButton = Button.byXpath(SHARE_BUTTON_XPATH).getBaseElement();
-        shareButton.click();
-    }
-
-    public void openMenu() {
-        SelenideElement menuButton = baseElement.$x(MENU_BUTTON_XPATH);
-        menuButton.click();
-    }
-
     public void waitForLoad() {
         baseElement.shouldBe(visible);
     }
 
-    public void hover(){
+    public void hover() {
         baseElement.hover();
     }
 
