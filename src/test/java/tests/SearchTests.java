@@ -86,6 +86,8 @@ public class SearchTests extends BaseTest {
         mainPage.goToTop();
         mainPage.openMainPage();
 
-        assertThat(mainPage.isDisplayed()).as("Главная страница должна быть открыта").isTrue();
+        assertThat(mainPage.isDisplayed())
+                .as("Главная страница должна быть открыта")
+                .isTrue();
     }
 }

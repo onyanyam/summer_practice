@@ -20,12 +20,22 @@ public class PlaylistPage extends BasePage {
     private static final String VIDEO_TITLE_XPATH =
             "//*[contains(text(), '%s')]";
 
-    public PlaylistPage() {
-        super(PlaylistPage.class, LIKED_PLAYLIST_XPATH, "");
+    private PlaylistPage(String rootXpath) {
+        super(PlaylistPage.class, rootXpath, "");
     }
 
-    public PlaylistPage(String type) {
-        super(PlaylistPage.class, WATCH_LATER_PLAYLIST_XPATH, "");
+    /**
+     * Создаёт экземпляр страницы плейлиста "Понравилось".
+     */
+    public static PlaylistPage likedPlaylist() {
+        return new PlaylistPage(LIKED_PLAYLIST_XPATH);
+    }
+
+    /**
+     * Создаёт экземпляр страницы плейлиста "Смотреть позже".
+     */
+    public static PlaylistPage watchLaterPlaylist() {
+        return new PlaylistPage(WATCH_LATER_PLAYLIST_XPATH);
     }
 
     /**
