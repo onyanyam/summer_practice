@@ -21,6 +21,8 @@ public class PlaylistPage extends BasePage {
     private static final String VIDEO_TITLE_XPATH =
             "//*[contains(text(), '%s')]";
 
+    private static final String RUTUBE_LIKED_LINK = "https://rutube.ru/my/liked/";
+
     private PlaylistPage(String rootXpath) {
         super(PlaylistPage.class, rootXpath, "");
     }
@@ -29,7 +31,7 @@ public class PlaylistPage extends BasePage {
      * Создаёт экземпляр страницы плейлиста "Понравилось".
      */
     public static PlaylistPage likedPlaylist() {
-        Selenide.open("https://rutube.ru/my/liked/");
+        Selenide.open(RUTUBE_LIKED_LINK);
         return new PlaylistPage(LIKED_PLAYLIST_XPATH);
     }
 

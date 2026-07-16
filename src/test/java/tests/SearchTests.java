@@ -1,6 +1,7 @@
 package tests;
 
 import base.BaseTest;
+import com.codeborne.selenide.Selenide;
 import org.junit.jupiter.api.Test;
 import pages.MainPage;
 import pages.SearchPage;
@@ -20,6 +21,12 @@ public class SearchTests extends BaseTest {
     private static final String NEWS_QUERY = "новости";
     private static final String FILTER_TODAY = "За сегодня";
     private static final String FILTER_DURATION_20_60 = "20–60 минут";
+    private static final String RUTUBE_LINK = "https://rutube.ru/";
+    private static final String RUTUBE_TOP_LINK = "https://rutube.ru/feeds/top/";
+    private static final int MIN_SEC_COUNT = 20*60;
+    private static final int MAX_SEC_COUNT = 60*60;
+    private static final String[] TIMES = {"минут", "час", "секунд", "сегодня"};
+
 
     /**
      * Тест 2. Применение фильтров.
@@ -40,11 +47,11 @@ public class SearchTests extends BaseTest {
 
         assertThat(publishDate)
                 .as("Видео должно быть опубликовано сегодня")
-                .containsAnyOf("минут", "час", "секунд", "сегодня");
+                .containsAnyOf(TIMES);
 
         assertThat(parseDuration(duration))
                 .as("Видео должно длиться от 20 до 60 минут")
-                .isBetween(20 * 60, 60 * 60);
+                .isBetween(MIN_SEC_COUNT, MAX_SEC_COUNT);
     }
 
     /**
@@ -82,12 +89,23 @@ public class SearchTests extends BaseTest {
     @Test
     public void emptySearch() {
         MainPage mainPage = new MainPage();
+
         mainPage.search(EMPTY_QUERY);
+
+        assertThat(Selenide.webdriver().driver().url())
+                .as("После пустого поиска должны остаться на главной")
+                .isEqualTo(RUTUBE_LINK);
+
         mainPage.goToTop();
+
+        assertThat(Selenide.webdriver().driver().url())
+                .as("Должны перейти в раздел 'В топе'")
+                .isEqualTo(RUTUBE_TOP_LINK);
+
         mainPage.openMainPage();
 
-        assertThat(mainPage.isDisplayed())
+        assertThat(Selenide.webdriver().driver().url())
                 .as("Главная страница должна быть открыта")
-                .isTrue();
+                .isEqualTo(RUTUBE_LINK);
     }
 }

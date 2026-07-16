@@ -1,11 +1,13 @@
 package pages;
 
 import base.BasePage;
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import elements.Button;
-import elements.Link;
-import elements.Tab;
 import elements.Input;
+
+import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.visible;
@@ -19,7 +21,6 @@ import static com.codeborne.selenide.Selenide.$x;
 public class SearchPage extends BasePage {
 
     private static final String SEARCH_PLACEHOLDER = "Поиск";
-
 
     private static final String FILTERS_PANEL_XPATH =
             "//div[contains(@class, 'search-filters-module__searchFiltersAdvanced')]";
@@ -38,7 +39,10 @@ public class SearchPage extends BasePage {
             "//article[@data-pos-num='0']";
 
     private static final String FIRST_VIDEO_XPATH =
-            "//a[contains(@class, 'wdp-card-poster-module__posterWrapperBase')]";
+            "(//a[contains(@class, 'wdp-card-poster-module__posterWrapperBase')])";
+
+    private static final String FIRST_CHANNEL_XPATH =
+            "//div[contains(@class, 'search-results')]//a[contains(@href, '/channel/')]";
 
     private static final String FIRST_VIDEO_TITLE_XPATH =
             ".//div[contains(@class, 'title')]";
@@ -112,6 +116,7 @@ public class SearchPage extends BasePage {
         return new VideoPage();
     }
 
+
     /**
      * Геттеры
      */
@@ -140,6 +145,20 @@ public class SearchPage extends BasePage {
     public SearchPage goToChannelsTab() {
         channelsTab.click();
         return this;
+    }
+
+
+    public ChannelPage subscribeToFirstChannelAndGoToChannel() {
+        SelenideElement subscribeBtn = $x("//span[contains(text(), 'Подписаться')]/parent::button");
+        subscribeBtn.shouldBe(visible, Duration.ofSeconds(10));
+        subscribeBtn.click();
+        Selenide.sleep(2000);
+
+        SelenideElement channelLink = $x("//*[@id='root']/div/div[3]/div/main/div/section/section/div[3]/div/div/div/section/div[1]/div/article/a");
+        channelLink.click();
+        Selenide.sleep(2000);
+
+        return new ChannelPage();
     }
 
     /**

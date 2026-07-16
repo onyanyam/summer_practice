@@ -1,6 +1,7 @@
 package tests;
 
 import base.BaseTest;
+import com.codeborne.selenide.Selenide;
 import org.junit.jupiter.api.Test;
 import pages.ChannelPage;
 import pages.MainPage;
@@ -28,10 +29,7 @@ public class SubscriptionTests extends BaseTest {
         SearchPage searchResults = mainPage.search(MATCH_TV_QUERY);
         searchResults.goToChannelsTab();
 
-        VideoPage video = searchResults.openFirstVideo();
-        ChannelPage channel = video.goToChannel();
-        channel.subscribe();
-        channel.goToChannelPage();
+        ChannelPage channel = searchResults.subscribeToFirstChannelAndGoToChannel();
 
         assertThat(channel.isSubscribed())
                 .as("Подписка должна быть оформлена")

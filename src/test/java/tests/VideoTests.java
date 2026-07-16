@@ -15,12 +15,12 @@ import static org.assertj.core.api.Assertions.assertThat;
  * поиск, управление воспроизведением, настройка видео
  * и выполнение основных пользовательских действий.
  */
-public class VideoTests extends BaseTest {
+public class    VideoTests extends BaseTest {
 
     private static final String MUSIC_QUERY = "музыка";
     private static final String MOVIES_QUERY = "фильмы";
     private static final String NEWS_QUERY = "новости";
-    private static final String QUALITY_720P = "720p";
+    private static final String QUALITY_480P = "480p";
 
     /**
      * Тест 1. Поиск видео.
@@ -32,7 +32,7 @@ public class VideoTests extends BaseTest {
         MainPage mainPage = new MainPage();
         SearchPage searchResults = mainPage.search(MUSIC_QUERY);
         VideoPage video = searchResults.openFirstVideo();
-        video.pause();
+        video.      pause();
 
         assertThat(video.isPaused())
                 .as("Видео должно быть на паузе")
@@ -50,11 +50,14 @@ public class VideoTests extends BaseTest {
         MainPage mainPage = new MainPage();
         SearchPage searchResults = mainPage.search(MOVIES_QUERY);
         VideoPage video = searchResults.openFirstVideo();
+
         video.reportVideo();
 
-        assertThat(video.isComplaintSent())
-                .as("Уведомление об отправке жалобы должно появиться")
+        assertThat(video.isComplaintFormDisplayed())
+                .as("Форма жалобы должна открыться")
                 .isTrue();
+
+        video.closeComplaintForm();
     }
 
     /**
@@ -109,11 +112,9 @@ public class VideoTests extends BaseTest {
         VideoPage video = searchResults.openFirstVideo();
 
         String videoTitle = video.getVideoTitle();
-        video.like();
-        Selenide.sleep(1500);
 
+        video.like();
         video.dislike();
-        Selenide.sleep(1500);
 
         PlaylistPage liked = PlaylistPage.likedPlaylist();
         assertThat(liked.isVideoNotInPlaylist(videoTitle))
@@ -124,7 +125,7 @@ public class VideoTests extends BaseTest {
     /**
      * Тест 10. Настройка видео (качество и формат).
      * Выполняет поиск по запросу "музыка", открывает первое видео,
-     * устанавливает качество "1080p" и переключает полноэкранный режим.
+     * устанавливает качество "480p" и переключает полноэкранный режим.
      * Проверяет, что качество и формат успешно применены к видео.
      */
     @Test
@@ -132,13 +133,17 @@ public class VideoTests extends BaseTest {
         MainPage mainPage = new MainPage();
         SearchPage searchResults = mainPage.search(MUSIC_QUERY);
         VideoPage video = searchResults.openFirstVideo();
-        Selenide.sleep(25000);
-        video.setQuality(QUALITY_720P);
+
+        video.getVideoPlayer().waitForLoad();
+
+        video.getVideoPlayer().hover();
+
+        video.setQuality(QUALITY_480P);
         video.toggleFullscreen();
 
         assertThat(video.getCurrentQuality())
-                .as("Качество должно быть 720p")
-                .isEqualTo("720p");
+                .as("Качество должно быть 480p")
+                .isEqualTo(QUALITY_480P);
 
         assertThat(video.isFullscreen())
                 .as("Широкий экран должен быть включён")

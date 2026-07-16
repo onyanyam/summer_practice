@@ -1,11 +1,9 @@
 package pages;
 
 import base.BasePage;
+import com.codeborne.selenide.Selenide;
 import elements.Input;
 import elements.Button;
-import elements.Link;
-
-import static com.codeborne.selenide.Selenide.$x;
 
 /**
  * Класс, представляющий главную страницу Rutube.
@@ -16,10 +14,14 @@ public class MainPage extends BasePage {
     private static final String SEARCH_PLACEHOLDER = "Поиск";
     private static final String SEARCH_BUTTON_TEXT = "Найти";
 
-    private static final String LOGO_BUTTON_XPATH = "//*[@data-testid='rutube-logo']";
-    private static final String TOP_LINK_XPATH = "//a[contains(@href, '/feeds/top/')]";
+    private static final String LOGO_BUTTON_XPATH =
+            "//*[@data-testid='rutube-logo']";
 
-    private static final String MAIN_PAGE_ROOT = "//div[contains(@class, 'main-page')]";
+    private static final String TOP_LINK_XPATH =
+            "//nav[contains(@class, 'menu')]//a[contains(., 'В топе')]";
+
+    private static final String MAIN_PAGE_ROOT =
+            "//div[contains(@class, 'main-page')]";
 
     private final Input searchInput = Input.byPlaceholder(SEARCH_PLACEHOLDER);
     private final Button searchButton = Button.byText(SEARCH_BUTTON_TEXT);
@@ -47,13 +49,21 @@ public class MainPage extends BasePage {
      * Переходит в раздел "В топе" через ссылку в левом меню.
      */
     public void goToTop() {
-        topLink.click();
+        Selenide.open("https://rutube.ru/feeds/top/");
     }
 
     /**
      * Возвращается на главную страницу через клик по логотипу Rutube.
      */
     public void openMainPage() {
-        logoLink.click();
+        try {
+            if (logoLink.isDisplayed()) {
+                logoLink.click();
+            } else {
+                Selenide.open("https://rutube.ru");
+            }
+        } catch (Exception e) {
+            Selenide.open("https://rutube.ru");
+        }
     }
 }

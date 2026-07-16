@@ -1,8 +1,16 @@
 package pages;
 
 import base.BasePage;
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.SelenideElement;
 import elements.Button;
 import elements.Link;
+
+import java.time.Duration;
+
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$x;
 
 /**
  * Класс, представляющий страницу канала на Rutube.
@@ -33,8 +41,9 @@ public class ChannelPage extends BasePage {
      * Если кнопка уже в статусе "Вы подписаны", метод ничего не делает.
      */
     public ChannelPage subscribe() {
-        if (subscribeButton.isDisplayed()) {
+        if (subscribeButton.isDisplayed() && !isSubscribed()) {
             subscribeButton.click();
+            Selenide.sleep(2000);
         }
         return this;
     }
@@ -44,15 +53,13 @@ public class ChannelPage extends BasePage {
      * Ищет кнопку с текстом "Вы подписаны" и проверяет её отображение.
      */
     public boolean isSubscribed() {
-        return Button.byXpath(SUBSCRIBED_BUTTON_XPATH).isDisplayed();
-    }
+        try {
+            SelenideElement btn = $x("//button[contains(@class, 'wdp-subscribe-button-module__button')]");
 
-    /**
-     * Переходит на страницу канала через клик по логотипу канала.
-     * Используется для навигации со страницы видео на страницу канала.
-     */
-    public ChannelPage goToChannelPage() {
-        channelLogo.click();
-        return this;
+            String text = btn.getText();
+            return !text.contains("Подписаться");
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
