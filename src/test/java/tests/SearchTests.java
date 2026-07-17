@@ -2,9 +2,11 @@ package tests;
 
 import base.BaseTest;
 import com.codeborne.selenide.Selenide;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pages.MainPage;
 import pages.SearchPage;
+import utils.Logger;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static utils.Utils.parseDuration;
@@ -33,15 +35,23 @@ public class SearchTests extends BaseTest {
      * Выполняет поиск по запросу "новости", применяет фильтры "За сегодня" и "20–60 минут".
      * Проверяет, что все видео в выдаче соответствуют обоим критериям.
      */
+    @DisplayName("Применение фильтров поиска")
     @Test
     public void applyFilters() {
         MainPage mainPage = new MainPage();
+
+        Logger.info("Выполняем поиск по запросу: " + NEWS_QUERY);
         SearchPage searchResults = mainPage.search(NEWS_QUERY);
 
-        searchResults.openFilters()
-                .applyFilter(FILTER_TODAY)
-                .applyFilter(FILTER_DURATION_20_60);
+        Logger.info("Открываем фильтры...");
+        searchResults.openFilters();
 
+        Logger.info("Применяем фильтр \"" + FILTER_TODAY + "\"...");
+        searchResults.applyFilter(FILTER_TODAY);
+        Logger.info("Применяем фильтр \"" + FILTER_DURATION_20_60 + "\"...");
+        searchResults.applyFilter(FILTER_DURATION_20_60);
+
+        Logger.info("Получаем данные о первом видеоролике...");
         String publishDate = searchResults.getFirstVideoPublishDate();
         String duration    = searchResults.getFirstVideoDuration();
 
@@ -59,15 +69,21 @@ public class SearchTests extends BaseTest {
      * Выполняет поиск по запросу "музыка", очищает поле поиска,
      * вводит новый запрос "кино" и проверяет, что результаты обновились.
      */
+    @DisplayName("Изменение поискового запроса")
     @Test
     public void changeSearchQuery() {
         MainPage mainPage = new MainPage();
+
+        Logger.info("Выполняем поиск по запросу: " + MUSIC_QUERY);
         SearchPage searchResults = mainPage.search(MUSIC_QUERY);
 
+        Logger.info("Получаем данные о первом видеоролике...");
         String firstTitleBefore = searchResults.getFirstVideoTitle();
 
+        Logger.info("Выполняем поиск по запросу: " + CINEMA_QUERY);
         searchResults.searchAgain(CINEMA_QUERY);
 
+        Logger.info("Получаем данные о первом видеоролике...");
         String firstTitleAfter = searchResults.getFirstVideoTitle();
         String searchInputValue = searchResults.getSearchInputValue();
 
@@ -86,22 +102,26 @@ public class SearchTests extends BaseTest {
      * и возвращается на главную страницу.
      * Проверяет, что главная страница открыта и интерфейс не сломался.
      */
+    @DisplayName("Поиск с пустым запросом")
     @Test
     public void emptySearch() {
         MainPage mainPage = new MainPage();
 
+        Logger.info("Выполняем поиск по запросу: " + EMPTY_QUERY);
         mainPage.search(EMPTY_QUERY);
 
         assertThat(Selenide.webdriver().driver().url())
                 .as("После пустого поиска должны остаться на главной")
                 .isEqualTo(RUTUBE_LINK);
 
+        Logger.info("Переходим в раздел \"В топе\"...");
         mainPage.goToTop();
 
         assertThat(Selenide.webdriver().driver().url())
                 .as("Должны перейти в раздел 'В топе'")
                 .isEqualTo(RUTUBE_TOP_LINK);
 
+        Logger.info("Возвращаемся на главную страницу...");
         mainPage.openMainPage();
 
         assertThat(Selenide.webdriver().driver().url())
