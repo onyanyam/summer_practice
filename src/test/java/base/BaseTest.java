@@ -7,7 +7,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
 import org.openqa.selenium.Cookie;
+import utils.Logger;
+
 import java.io.File;
 import java.time.Duration;
 import static com.codeborne.selenide.Condition.visible;
@@ -27,12 +30,16 @@ public class BaseTest {
             "//div[contains(@class, 'wdp-popup-module__popup')]//*[contains(@class, 'close')]";
 
     @BeforeEach
-    public void setUp() {
+    public void setUp(TestInfo testInfo) {
+        Logger.testStart(testInfo.getDisplayName());
+
         Configuration.browser = "chrome";
         Configuration.browserSize = "1920x1080";
         Configuration.timeout = 15000;
         Configuration.pageLoadTimeout = 60000;
         Configuration.headless = false;
+
+        Logger.info("Открываем страницу RuTube...");
 
         open("https://rutube.ru");
 
@@ -76,7 +83,9 @@ public class BaseTest {
     }
 
     @AfterEach
-    public void tearDown() {
+    public void tearDown(TestInfo testInfo) {
+        Logger.testEnd(testInfo.getDisplayName());
+
         Selenide.closeWebDriver();
     }
 }

@@ -2,11 +2,13 @@ package tests;
 
 import base.BaseTest;
 import com.codeborne.selenide.Selenide;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pages.ChannelPage;
 import pages.MainPage;
 import pages.SearchPage;
 import pages.VideoPage;
+import utils.Logger;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -23,12 +25,18 @@ public class SubscriptionTests extends BaseTest {
      * открывает первый канал из результатов и оформляет подписку.
      * Проверяет, что подписка успешно оформлена.
      */
+    @DisplayName("Поиск канала и оформление подписки")
     @Test
     public void searchChannelAndSubscribe() {
         MainPage mainPage = new MainPage();
+
+        Logger.info("Выполняем поиск по запросу: " + MATCH_TV_QUERY);
         SearchPage searchResults = mainPage.search(MATCH_TV_QUERY);
+
+        Logger.info("Переходим на вкладку \"Каналы\"");
         searchResults.goToChannelsTab();
 
+        Logger.info("Подписываемся на первый канал...");
         ChannelPage channel = searchResults.subscribeToFirstChannelAndGoToChannel();
 
         assertThat(channel.isSubscribed())
