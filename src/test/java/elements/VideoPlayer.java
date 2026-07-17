@@ -39,7 +39,10 @@ public class VideoPlayer extends BaseElement {
             ".//button[@data-testid='ui-cinema']";
 
     private static final String QUALITY_MENU_ITEM_XPATH =
-            "//*[contains(text(), 'Качество')]";
+            "//button[contains(@aria-label, 'Качество видео')]";
+
+    private static final String CURRENT_QUALITY_XPATH =
+            "//button[contains(@aria-label, 'Качество видео')]//div[@aria-hidden='true']/p";
 
     private VideoPlayer() {
         super(VIDEO_PLAYER_XPATH, "");
@@ -113,19 +116,10 @@ public class VideoPlayer extends BaseElement {
      * Открывает настройки, читает активный пункт качества и закрывает настройки.
      */
     public String getCurrentQuality() {
-        try {
-            openSettingsMenu();
+        openSettingsMenu();
 
-            SelenideElement anyQuality = $x("//*[contains(text(), '480p')]");
-            if (anyQuality.exists()) {
-                String quality = anyQuality.getText().trim();
-                return quality;
-            }
-
-            return "";
-        } catch (Exception e) {
-            return "";
-        }
+        SelenideElement qualityElement = $x(CURRENT_QUALITY_XPATH);
+        return qualityElement.getText();
     }
 
     public void toggleFullscreen() {
