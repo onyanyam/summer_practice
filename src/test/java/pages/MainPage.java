@@ -22,6 +22,10 @@ public class MainPage extends BasePage {
 
     private static final String MAIN_PAGE_ROOT =
             "//div[contains(@class, 'main-page')]";
+    private static final String RUTUBE_LINK =
+            "https://rutube.ru/";
+    private static final String RUTUBE_TOP_LINK =
+            "https://rutube.ru/feeds/top/";
 
     private final Input searchInput = Input.byPlaceholder(SEARCH_PLACEHOLDER);
     private final Button searchButton = Button.byText(SEARCH_BUTTON_TEXT);
@@ -34,7 +38,7 @@ public class MainPage extends BasePage {
 
     /**
      * Выполняет поиск по указанному запросу.
-     * Если запрос пустой или null, выполняет поиск с пустым полем.
+     * Если запрос пустой, выполняет поиск с пустым полем.
      */
     public SearchPage search(String query) {
         if (query != null && !query.isEmpty()) {
@@ -49,7 +53,7 @@ public class MainPage extends BasePage {
      * Переходит в раздел "В топе" через ссылку в левом меню.
      */
     public void goToTop() {
-        Selenide.open("https://rutube.ru/feeds/top/");
+        Selenide.open(RUTUBE_TOP_LINK);
     }
 
     /**
@@ -60,10 +64,10 @@ public class MainPage extends BasePage {
             if (logoLink.isDisplayed()) {
                 logoLink.click();
             } else {
-                Selenide.open("https://rutube.ru");
+                Selenide.open(RUTUBE_LINK);
             }
         } catch (Exception e) {
-            Selenide.open("https://rutube.ru");
+            Selenide.open(RUTUBE_LINK);
         }
     }
 }

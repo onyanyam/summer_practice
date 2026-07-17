@@ -1,6 +1,5 @@
 package base;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 
 import java.time.Duration;
@@ -36,7 +35,9 @@ public class BaseElement {
         }
     }
 
-    public void waitForLoad() { baseElement.shouldBe(visible); }
+    public void waitForLoad() {
+        baseElement.shouldBe(visible);
+    }
 
     public String getText() {
         return baseElement.getText();

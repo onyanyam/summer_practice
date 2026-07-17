@@ -1,15 +1,9 @@
 package pages;
 
 import base.BasePage;
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import elements.Button;
 import elements.Link;
-
-import java.time.Duration;
-
-import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$x;
 
 /**
@@ -22,7 +16,7 @@ public class ChannelPage extends BasePage {
             "//button[contains(@class, 'wdp-subscribe-button-module__button')]";
 
     private static final String SUBSCRIBED_BUTTON_XPATH =
-            "//button[contains(@class, 'wdp-subscribe-button-module__button') and contains(., 'Вы подписаны')]";
+            "//button[contains(@class, 'wdp-subscribe-button-module__button')]";
 
     private static final String CHANNEL_LOGO_CLASS = "wdp-video-options-row-module__authorAvatar";
 
@@ -43,7 +37,6 @@ public class ChannelPage extends BasePage {
     public ChannelPage subscribe() {
         if (subscribeButton.isDisplayed() && !isSubscribed()) {
             subscribeButton.click();
-            Selenide.sleep(2000);
         }
         return this;
     }

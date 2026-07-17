@@ -29,6 +29,12 @@ public class BaseTest {
     private static final String POPUP_CLOSE_BUTTON_XPATH =
             "//div[contains(@class, 'wdp-popup-module__popup')]//*[contains(@class, 'close')]";
 
+    private static final String RUTUBE_LINK =
+            "https://rutube.ru";
+
+    private static final String COOKIE_LOCAL_PATH =
+            "src/test/resources/cookies.json";
+
     @BeforeEach
     public void setUp(TestInfo testInfo) {
         Logger.testStart(testInfo.getDisplayName());
@@ -41,11 +47,11 @@ public class BaseTest {
 
         Logger.info("Открываем страницу RuTube...");
 
-        open("https://rutube.ru");
+        open(RUTUBE_LINK);
 
         closePopups();
 
-        loadCookiesFromFile("src/test/resources/cookies.json");
+        loadCookiesFromFile(COOKIE_LOCAL_PATH);
 
         refresh();
     }

@@ -1,13 +1,9 @@
 package pages;
 
 import base.BasePage;
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import elements.Button;
 import elements.Input;
-
-import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.visible;
@@ -78,6 +74,27 @@ public class SearchPage extends BasePage {
     }
 
     /**
+     * Возвращает заголовок первого видео в результатах поиска
+     */
+    public String getFirstVideoTitle() {
+        return getFirstVideoAttribute(FIRST_VIDEO_TITLE_XPATH);
+    }
+
+    /**
+     * Возвращает дату публикации первого видео в результатах поиска
+     */
+    public String getFirstVideoPublishDate() {
+        return getFirstVideoAttribute(FIRST_VIDEO_PUBLISH_DATE_XPATH);
+    }
+
+    /**
+     * Возвращает длительность первого видео в результатах поиска
+     */
+    public String getFirstVideoDuration() {
+        return getFirstVideoAttribute(FIRST_VIDEO_DURATION_XPATH);
+    }
+
+    /**
      * Открывает панель фильтров.
      * Предварительно ожидает загрузки результатов, затем проверяет,
      * открыты ли фильтры, и если нет, то кликает по кнопке "Фильтры".
@@ -116,22 +133,6 @@ public class SearchPage extends BasePage {
         return new VideoPage();
     }
 
-
-    /**
-     * Геттеры
-     */
-    public String getFirstVideoTitle() {
-        return getFirstVideoAttribute(FIRST_VIDEO_TITLE_XPATH);
-    }
-
-    public String getFirstVideoPublishDate() {
-        return getFirstVideoAttribute(FIRST_VIDEO_PUBLISH_DATE_XPATH);
-    }
-
-    public String getFirstVideoDuration() {
-        return getFirstVideoAttribute(FIRST_VIDEO_DURATION_XPATH);
-    }
-
     /**
      * Получает текущее значение из поля поиска.
      */
@@ -147,16 +148,17 @@ public class SearchPage extends BasePage {
         return this;
     }
 
-
+    /**
+     * Подписывается на первый канал в результатах поиска и переходит на его страницу.
+     */
     public ChannelPage subscribeToFirstChannelAndGoToChannel() {
-        SelenideElement subscribeBtn = $x("//span[contains(text(), 'Подписаться')]/parent::button");
-        subscribeBtn.shouldBe(visible, Duration.ofSeconds(10));
+        SelenideElement subscribeBtn =
+                $x("//span[contains(text(), 'Подписаться')]/parent::button");
         subscribeBtn.click();
-        Selenide.sleep(2000);
 
-        SelenideElement channelLink = $x("//*[@id='root']/div/div[3]/div/main/div/section/section/div[3]/div/div/div/section/div[1]/div/article/a");
+        SelenideElement channelLink =
+                $x("//*[@id='root']/div/div[3]/div/main/div/section/section/div[3]/div/div/div/section/div[1]/div/article/a");
         channelLink.click();
-        Selenide.sleep(2000);
 
         return new ChannelPage();
     }
@@ -199,6 +201,9 @@ public class SearchPage extends BasePage {
         return option;
     }
 
+    /**
+     * Находит элемент фильтра по тексту.
+     */
     private void waitForFilterActivation(SelenideElement option) {
         option.shouldHave(cssClass(ACTIVE_FILTER_CLASS));
     }

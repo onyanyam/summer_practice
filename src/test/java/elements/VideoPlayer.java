@@ -67,6 +67,9 @@ public class VideoPlayer extends BaseElement {
         );
     }
 
+    /**
+     * Ставит видео на паузу, если оно воспроизводится.
+     */
     public void pause() {
         waitForLoad();
         hover();
@@ -77,6 +80,9 @@ public class VideoPlayer extends BaseElement {
         }
     }
 
+    /**
+     * Проверяет, находится ли видео на паузе.
+     */
     public boolean isPaused() {
         String label = baseElement
                 .$x(PLAY_BUTTON_XPATH)
@@ -103,6 +109,9 @@ public class VideoPlayer extends BaseElement {
         clickWithJS(settingsBtn);
     }
 
+    /**
+     * Устанавливает указанное качество видео.
+     */
     public void setQuality(String quality) {
         openSettingsMenu();
 
@@ -122,6 +131,9 @@ public class VideoPlayer extends BaseElement {
         return qualityElement.getText();
     }
 
+    /**
+     * Переключает полноэкранный режим.
+     */
     public void toggleFullscreen() {
         hover();
 
@@ -140,15 +152,23 @@ public class VideoPlayer extends BaseElement {
         Selenide.executeJavaScript("arguments[0].click();", fullscreenButton);
     }
 
-
+    /**
+     * Ожидает загрузки видеоплеера.
+     */
     public void waitForLoad() {
         baseElement.shouldBe(visible);
     }
 
+    /**
+     * Наводит курсор на плеер, чтобы показать элементы управления.
+     *  */
     public void hover() {
         baseElement.hover();
     }
 
+    /**
+     * Возвращает экземпляр видеоплеера.
+     */
     public static VideoPlayer getPlayer() {
         return new VideoPlayer();
     }

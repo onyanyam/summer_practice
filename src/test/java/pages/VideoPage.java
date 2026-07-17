@@ -64,6 +64,10 @@ public class VideoPage extends BasePage {
         super(VideoPage.class, VIDEO_PLAYER_LAYOUT, "");
     }
 
+    /**
+     * Переключается на новое окно
+     * (используется для формы жалобы, которая открывается в новой вкладке).
+     */
     private void switchToNewWindow() {
         String mainWindow = WebDriverRunner.getWebDriver().getWindowHandle();
         Set<String> handles = WebDriverRunner.getWebDriver().getWindowHandles();
@@ -75,6 +79,9 @@ public class VideoPage extends BasePage {
         }
     }
 
+    /**
+     * Возвращает экземпляр видеоплеера для выполнения действий внутри него.
+     */
     public VideoPlayer getVideoPlayer() {
         return videoPlayer;
     }
@@ -101,12 +108,15 @@ public class VideoPage extends BasePage {
         return this;
     }
 
+    /**
+     * Ставит видео на паузу.
+     */
     public void pause() {
-            videoPlayer.pause();
+        videoPlayer.pause();
     }
+
     /**
      * Переключает полноэкранный режим.
-     * Делегирует вызов VideoPlayer.
      */
     public VideoPage toggleFullscreen() {
         videoPlayer.toggleFullscreen();
@@ -115,7 +125,6 @@ public class VideoPage extends BasePage {
 
     /**
      * Открывает контекстное меню (три точки).
-     * Кнопка меню находится под плеером.
      */
     public VideoPage openMenu() {
         menuButton.click();
@@ -148,11 +157,11 @@ public class VideoPage extends BasePage {
     public boolean isLinkCopied() {
         String clipboardText = Selenide.clipboard().getText();
 
-        return clipboardText != null && clipboardText.contains("rutube.ru");
+        return clipboardText.contains("rutube.ru");
     }
 
     /**
-     * Ставит лайк.
+     * Ставит лайк под видео.
      */
     public VideoPage like() {
         likeButton.click();
@@ -160,7 +169,7 @@ public class VideoPage extends BasePage {
     }
 
     /**
-     * Ставит дизлайк.
+     * Ставит дизлайк под видео.
      */
     public VideoPage dislike() {
         dislikeButton.click();
@@ -180,9 +189,13 @@ public class VideoPage extends BasePage {
         return this;
     }
 
+    /**
+     * Проверяет, отображается ли форма жалобы.
+     */
     public boolean isComplaintFormDisplayed() {
         try {
-            SelenideElement title = $x("//*[contains(text(), 'Сообщение о контенте с недопустимым содержанием')]");
+            SelenideElement title =
+                    $x("//*[contains(text(), 'Сообщение о контенте с недопустимым содержанием')]");
             title.shouldBe(visible, Duration.ofSeconds(10));
             return true;
         } catch (Exception e) {
@@ -190,6 +203,9 @@ public class VideoPage extends BasePage {
         }
     }
 
+    /**
+     * Закрывает форму жалобы и возвращается на основное окно.
+     */
     public VideoPage closeComplaintForm() {
         WebDriverRunner.getWebDriver().close();
         Set<String> handles = WebDriverRunner.getWebDriver().getWindowHandles();
@@ -211,8 +227,11 @@ public class VideoPage extends BasePage {
      */
     public boolean isFullscreen() {
         try {
-            SelenideElement fullscreenBtn = $x("//button[@data-testid='ui-fullscreen']");
-            String ariaLabel = fullscreenBtn.getAttribute("aria-label");
+
+            SelenideElement fullscreenBtn =
+                    $x("//button[@data-testid='ui-fullscreen']");
+            String ariaLabel =
+                    fullscreenBtn.getAttribute("aria-label");
 
             return ariaLabel != null && ariaLabel.contains("Выйти из полноэкранного режима");
         } catch (Exception e) {

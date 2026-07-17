@@ -1,13 +1,11 @@
 package tests;
 
 import base.BaseTest;
-import com.codeborne.selenide.Selenide;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pages.ChannelPage;
 import pages.MainPage;
 import pages.SearchPage;
-import pages.VideoPage;
 import utils.Logger;
 
 import static org.assertj.core.api.Assertions.assertThat;
